@@ -21,7 +21,7 @@ module.exports = {
 
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable(options, 'firstName');
-    await queryInterface.dropTable(options, 'lastName');
+    await queryInterface.removeColumn(options, 'firstName');
+    await queryInterface.removeColumn(options, 'lastName');
   }
 };
