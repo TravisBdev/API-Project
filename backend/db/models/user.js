@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-
+  //testing branch protection//
   User.init(
     {
       username: {
