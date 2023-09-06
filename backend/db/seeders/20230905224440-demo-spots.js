@@ -47,7 +47,6 @@ module.exports = {
         description: 'It is the only one like it.',
         price: 111,
       },
-
     ], { validate: true });
   },
 

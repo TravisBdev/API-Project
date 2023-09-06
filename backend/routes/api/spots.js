@@ -35,19 +35,60 @@ router.get('/', async (req, res, next) => {
         ],
       },
     ],
-    raw: true
   });
+  const resSpots = spots.map((spot) => ({
+    id: spot.id,
+    ownerId: spot.ownerId,
+    address: spot.address,
+    city: spot.city,
+    state: spot.state,
+    country: spot.country,
+    lat: spot.lat,
+    lng: spot.lng,
+    name: spot.name,
+    description: spot.description,
+    price: spot.price,
+    avgRating: spot.Reviews[0].dataValues.avgRating,
+    previewImage: spot.SpotImages[0].url
+  }));
 
-  res.json({ Spots: spots })
+  res.json({ Spots: resSpots })
 })
 
 //get all spots owned by current user
 router.get('/current', requireAuth, async (req, res, next) => {
   const userSpots = await Spot.findAll({
-    where: { 'ownerId': req.user.id }
+    where: { 'ownerId': req.user.id },
+    include: [
+      {
+        model: SpotImage,
+        attributes: ['url'],
+      },
+      {
+        model: Review,
+        attributes: [
+          [sequelize.fn('avg', sequelize.col('stars')), 'avgRating'],
+        ],
+      },
+    ],
   })
+  const resUserSpots = userSpots.map((spot) => ({
+    id: spot.id,
+    ownerId: spot.ownerId,
+    address: spot.address,
+    city: spot.city,
+    state: spot.state,
+    country: spot.country,
+    lat: spot.lat,
+    lng: spot.lng,
+    name: spot.name,
+    description: spot.description,
+    price: spot.price,
+    avgRating: spot.Reviews[0].dataValues.avgRating,
+    previewImage: spot.SpotImages[0].url
+  }));
 
-  res.json(userSpots)
+  res.json(resUserSpots)
 })
 
 module.exports = router
