@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
   };
-  //testing branch protection//
+
   User.init(
     {
       username: {
