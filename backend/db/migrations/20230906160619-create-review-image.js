@@ -20,7 +20,6 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Reviews',
-          key: 'id'
         },
       },
       url: {
