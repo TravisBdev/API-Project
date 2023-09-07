@@ -155,7 +155,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
   });
 
   if (newImg) {
-    return res.status(201).json({
+    return res.status(200).json({
       id: newImg.id,
       url: newImg.url,
       preview: newImg.preview,
