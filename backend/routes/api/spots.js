@@ -137,6 +137,32 @@ router.post('/', requireAuth, spotValidation, async (req, res) => {
     .json(makeSpot)
 })
 
+//add image to spot based on spot ID
+router.post('/:spotId/images', requireAuth, async (req, res) => {
+  const spot = await Spot.findByPk(req.params.spotId);
+  const { url, preview } = req.body;
+
+  if (!spot) {
+    return res.status(404).json({
+      message: "Spot couldn't be found",
+    });
+  }
+
+  const newImg = await SpotImage.create({
+    spotId: spot.id,
+    url,
+    preview,
+  });
+
+  if (newImg) {
+    return res.status(201).json({
+      id: newImg.id,
+      url: newImg.url,
+      preview: newImg.preview,
+    });
+  }
+})
+
 
 //get details of spot by id
 router.get('/:spotId', async (req, res) => {
@@ -168,10 +194,12 @@ router.get('/:spotId', async (req, res) => {
   res.json(spotObj)
 })
 
+//edit a spot based on ID
 router.put('/:spotId', requireAuth, spotValidation, async (req, res) => {
   const changeSpot = await Spot.findByPk(req.params.spotId)
   const { address, city, state, country, lat, lng, name, description, price } = req.body
-  if (req.user.id != changeSpot.ownerId) {
+  console.log(req.user.id, changeSpot.ownerId);
+  if (!changeSpot) {
     res.status(404)
     return res.json({
       message: "Spot couldn't be found"
@@ -191,6 +219,24 @@ router.put('/:spotId', requireAuth, spotValidation, async (req, res) => {
   await changeSpot.save();
 
   return res.status(200).json(changeSpot);
+})
+
+
+//delete a spot based on ID
+router.delete('/:spotId', requireAuth, async (req, res) => {
+  const spot = await Spot.findByPk(req.params.spotId)
+  if (!spot) {
+    res.status(404)
+    return res.json({
+      message: "Spot couldn't be found"
+    })
+  }
+
+  await spot.destroy()
+
+  return res.status(200).json({
+    "message": "Successfully deleted"
+  })
 })
 
 module.exports = router

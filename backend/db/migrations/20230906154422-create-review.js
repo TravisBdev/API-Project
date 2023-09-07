@@ -21,6 +21,8 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Spots',
+          onDelete: 'CASCADE',
+          hooks: true
         },
       },
       userId: {
@@ -28,7 +30,8 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Users',
-          key: 'id'
+          onDelete: 'CASCADE',
+          hooks: true
         },
       },
       review: {
