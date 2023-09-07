@@ -24,7 +24,7 @@ module.exports = {
         price: 420,
       },
       {
-        ownerId: 2,
+        ownerId: 1,
         address: '129 Makeshift Rd',
         city: 'Planeville',
         state: 'Iowa',
