@@ -9,31 +9,100 @@ const sequelize = require('sequelize');
 
 const router = express.Router();
 
-
+//get all reviews on user ID
 router.get('/current', requireAuth, async (req, res) => {
   const reviews = await Review.findAll({
-    where: { userId: req.user.id },
-    include: [{ model: Spot }, { model: ReviewImage }]
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName']
+      },
+      {
+        model: Spot,
+        include: [
+          {
+            model: SpotImage,
+            where: { preview: true },
+            attributes: ['url'],
+          }
+        ]
+      },
+      {
+        model: ReviewImage,
+        attributes: ['id', 'url']
+      }
+    ]
   });
 
-  res.status(200).json({ Reviews: reviews });
+  const flatRev = reviews.map(review => {
+    const revObj = review.toJSON();
+    if (revObj.Spot.SpotImages[0]) {
+      revObj.Spot.previewImage = revObj.Spot.SpotImages[0].url;
+    }
+    delete revObj.Spot.SpotImages;
+    return revObj;
+  });
+
+  res.status(200).json({ Reviews: flatRev });
 
 });
 
+//create review-image based on review ID
+router.post('/:reviewId/images', requireAuth, async (req, res) => {
+  const reviewId = req.params.reviewId;
+  const { url } = req.body;
+  const review = await Review.findByPk(reviewId);
 
+  if (!review) {
+    return res.status(404).json({ message: "Review couldn't be found" });
+  }
 
+  const newImg = await ReviewImage.create({
+    reviewId,
+    url
+  });
 
+  return res.status(200).json({
+    id: newImg.id,
+    url: newImg.url
+  });
+});
 
+//edit a review based on review ID
+router.put('/:reviewId', requireAuth, async (req, res) => {
+  const reviewId = req.params.reviewId;
+  const { review, stars } = req.body;
 
+  const current = await Review.findByPk(reviewId);
 
+  if (!current) {
+    return res.status(404).json({ message: "Review couldn't be found" });
+  }
 
+  current.review = review;
+  current.stars = stars;
 
+  await current.save();
 
+  return res.status(200).json({
+    review: current.review,
+    stars: current.stars,
+  });
+});
 
+//delete a review by review ID
+router.delete('/:reviewId', requireAuth, async (req, res) => {
+  const reviewId = req.params.reviewId;
+  const review = await Review.findByPk(reviewId);
 
+  if (!review) {
+    return res.status(404).json({ message: "Review couldn't be found" });
+  }
 
+  await review.destroy();
 
-
+  return res.status(200).json({ message: 'Successfully deleted' });
+});
 
 
 

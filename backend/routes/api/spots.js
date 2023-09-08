@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth')
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { Spot, SpotImage, Review, User } = require('../../db/models');
+const { Spot, SpotImage, Review, User, ReviewImage } = require('../../db/models');
 const sequelize = require('sequelize');
 
 const router = express.Router();
@@ -163,6 +163,32 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
   }
 })
 
+//get reviews by spot ID
+router.get('/:spotId/reviews', async (req, res) => {
+  const { spotId } = req.params;
+
+  const spot = await Spot.findByPk(spotId);
+  if (!spot) {
+    return res.status(404).json({ message: "Spot couldn't be found" });
+  }
+
+  const reviews = await Review.findAll({
+    where: { spotId },
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName'],
+      },
+      {
+        model: ReviewImage,
+        attributes: ['id', 'url'],
+      },
+    ],
+  });
+
+  return res.json({ Reviews: reviews });
+});
+
 //create review based on spot ID
 router.post('/:spotId/reviews', requireAuth, async (req, res) => {
   const { spotId } = req.params;
@@ -186,7 +212,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     return res.json('User already has a review for this spot')
   }
 
-  // Create a new review
+
   const newReview = await Review.create({
     spotId,
     userId,
@@ -234,7 +260,7 @@ router.get('/:spotId', async (req, res) => {
 router.put('/:spotId', requireAuth, spotValidation, async (req, res) => {
   const changeSpot = await Spot.findByPk(req.params.spotId)
   const { address, city, state, country, lat, lng, name, description, price } = req.body
-  console.log(req.user.id, changeSpot.ownerId);
+
   if (!changeSpot) {
     res.status(404)
     return res.json({
