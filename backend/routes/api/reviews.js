@@ -9,7 +9,7 @@ const sequelize = require('sequelize');
 
 const router = express.Router();
 
-//get all reviews on user ID
+//GET ALL REVIEWS BY USER ID
 router.get('/current', requireAuth, async (req, res) => {
   const reviews = await Review.findAll({
     include: [
@@ -47,7 +47,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 });
 
-//create review-image based on review ID
+//CREATE REVIEW IMAGE BY REVIEW ID
 router.post('/:reviewId/images', requireAuth, async (req, res) => {
   const reviewId = req.params.reviewId;
   const { url } = req.body;
@@ -68,7 +68,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
   });
 });
 
-//edit a review based on review ID
+//EDIT REVIEW BY REVIEW ID
 router.put('/:reviewId', requireAuth, async (req, res) => {
   const reviewId = req.params.reviewId;
   const { review, stars } = req.body;
@@ -90,7 +90,7 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
   });
 });
 
-//delete a review by review ID
+//DELETE REVIEW BY REVIEW ID
 router.delete('/:reviewId', requireAuth, async (req, res) => {
   const reviewId = req.params.reviewId;
   const review = await Review.findByPk(reviewId);

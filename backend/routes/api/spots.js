@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 const { Op } = require('sequelize');
 const { check, query, validationResult } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -32,7 +33,7 @@ const queryValidations = [
   handleValidationErrors
 ]
 
-//get all spots
+//GET ALL SPOTS
 router.get('/', queryValidations, async (req, res) => {
   // if (!errors.isEmpty()) {
   //   return res.status(400).json({ message: "Bad Request", errors: errors.mapped() });
@@ -107,7 +108,7 @@ router.get('/', queryValidations, async (req, res) => {
 );
 
 
-//get all spots owned by current user
+//GET ALL SPOTS OWNED BY CURRENT USER
 router.get('/current', requireAuth, async (req, res,) => {
   const spots = await Spot.findAll({
     where: { ownerId: req.user.id },
@@ -163,7 +164,7 @@ const spotValidation = [
 
 
 
-//create a spot
+//CREATE A SPOT
 router.post('/', requireAuth, spotValidation, async (req, res) => {
   const { address, city, state, country, lat, lng, name, description, price, ownerId } = req.body
   const makeSpot = await Spot.create({
@@ -185,7 +186,55 @@ router.post('/', requireAuth, spotValidation, async (req, res) => {
     .json(makeSpot)
 })
 
-//add image to spot based on spot ID
+//GET BOOKINGS BY SPOT ID
+router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+  const spotId = req.params.spotId;
+
+  const spot = await Spot.findByPk(spotId);
+  if (!spot) {
+    return res.status(404).json({ message: "Spot couldn't be found" });
+  }
+
+  const bookings = await Booking.findAll({
+    where: { spotId: spotId },
+    include: [{ model: User, attributes: ['id', 'firstName', 'lastName'] }]
+  });
+
+  const isOwner = req.user && req.user.id === spot.ownerId;
+
+  let results = {
+    Bookings: []
+  };
+
+  for (let booking of bookings) {
+    let data = {};
+
+    if (isOwner) {
+      data.User = {
+        id: booking.User.id,
+        firstName: booking.User.firstName,
+        lastName: booking.User.lastName
+      };
+      data.id = booking.id;
+      data.spotId = booking.spotId;
+      data.userId = booking.userId;
+      data.startDate = moment(booking.startDate).format('YYYY-MM-DD');
+      data.endDate = moment(booking.endDate).format('YYYY-MM-DD');
+      data.createdAt = booking.createdAt;
+      data.updatedAt = booking.updatedAt;
+    } else {
+      data.spotId = booking.spotId;
+      data.startDate = moment(booking.startDate).format('YYYY-MM-DD');
+      data.endDate = moment(booking.endDate).format('YYYY-MM-DD');
+    }
+
+    results.Bookings.push(data);
+  }
+
+  res.json(results);
+});
+
+//ADD IMAGE TO SPOT BY SPOT ID
 router.post('/:spotId/images', requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId);
   const { url, preview } = req.body;
@@ -211,7 +260,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
   }
 })
 
-//get reviews by spot ID
+//GET REVIEWS BY SPOT ID
 router.get('/:spotId/reviews', async (req, res) => {
   const { spotId } = req.params;
 
@@ -237,7 +286,79 @@ router.get('/:spotId/reviews', async (req, res) => {
   return res.json({ Reviews: reviews });
 });
 
-//create review based on spot ID
+//CREATE BOOKING BY SPOT ID
+router.post('/:spotId/bookings', requireAuth, async (req, res) => {
+  const spotId = req.params.spotId;
+  const userId = req.user.id;
+  const { startDate, endDate } = req.body;
+
+  const spot = await Spot.findByPk(spotId);
+  if (!spot) {
+    return res.status(404).json({ message: "Spot couldn't be found" });
+  }
+
+  if (spot.ownerId === userId) {
+    return res.status(400).json({ message: "Bad Request" });
+  }
+
+
+  if (new Date(startDate) >= new Date(endDate)) {
+    return res.status(400).json({
+      message: "Bad Request",
+      errors: {
+        endDate: "endDate cannot be on or before startDate",
+      },
+    });
+  }
+
+
+  const overlap = await Booking.findAll({
+    where: {
+      spotId: spotId,
+      [Op.or]: [
+        {
+          startDate: {
+            [Op.between]: [new Date(startDate), new Date(endDate)],
+          },
+        },
+        {
+          endDate: {
+            [Op.between]: [new Date(startDate), new Date(endDate)],
+          },
+        },
+      ],
+    },
+  });
+
+  if (overlap.length > 0) {
+    return res.status(400).json({
+      message: "Sorry, this spot is already booked for the specified dates",
+      errors: {
+        startDate: "Start date conflicts with an existing booking",
+        endDate: "End date conflicts with an existing booking",
+      },
+    });
+  }
+
+  const newBooking = await Booking.create({
+    spotId: spotId,
+    userId: userId,
+    startDate: startDate,
+    endDate: endDate,
+  });
+
+  res.status(200).json({
+    id: newBooking.id,
+    spotId: newBooking.spotId,
+    userId: newBooking.userId,
+    startDate: moment(newBooking.startDate).format('YYYY-MM-DD'),
+    endDate: moment(newBooking.endDate).format('YYYY-MM-DD'),
+    createdAt: newBooking.createdAt,
+    updatedAt: newBooking.updatedAt,
+  });
+});
+
+//CREATE REVIEW BY SPOT ID
 router.post('/:spotId/reviews', requireAuth, async (req, res) => {
   const { spotId } = req.params;
   const { review, stars } = req.body;
@@ -260,12 +381,6 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
     return res.json('User already has a review for this spot')
   }
 
-  //create booking from spot by spot ID
-  router.post('/:spotId/bookings', async (req, res) => {
-
-  })
-
-
   const newReview = await Review.create({
     spotId,
     userId,
@@ -279,7 +394,7 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
 })
 
 
-//get details of spot by id
+//GET DETAILS OF SPOT BY ID
 router.get('/:spotId', async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId, {
     include: [{ model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] },
@@ -309,7 +424,7 @@ router.get('/:spotId', async (req, res) => {
   res.json(spotObj)
 })
 
-//edit a spot based on ID
+//EDIT SPOT BY ID
 router.put('/:spotId', requireAuth, spotValidation, async (req, res) => {
   const changeSpot = await Spot.findByPk(req.params.spotId)
   const { address, city, state, country, lat, lng, name, description, price } = req.body
@@ -337,7 +452,7 @@ router.put('/:spotId', requireAuth, spotValidation, async (req, res) => {
 })
 
 
-//delete a spot based on ID
+//DELETE SPOT BY ID
 router.delete('/:spotId', requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId)
   if (!spot) {

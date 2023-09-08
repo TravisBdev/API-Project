@@ -1,4 +1,5 @@
 const express = require('express');
+const moment = require('moment');
 const { Op } = require('sequelize');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -9,7 +10,7 @@ const sequelize = require('sequelize');
 
 const router = express.Router();
 
-
+//GET CURRENT USER BOOKINGS
 router.get('/current', requireAuth, async (req, res) => {
   const userId = req.user.id;
 
@@ -48,8 +49,8 @@ router.get('/current', requireAuth, async (req, res) => {
       spotId: bookingObj.spotId,
       Spot: spot,
       userId: bookingObj.userId,
-      startDate: bookingObj.startDate,
-      endDate: bookingObj.endDate,
+      startDate: moment(bookingObj.startDate).format('YYYY-MM-DD'),
+      endDate: moment(bookingObj.endDate).format('YYYY-MM-DD'),
       createdAt: bookingObj.createdAt,
       updatedAt: bookingObj.updatedAt
     };
@@ -60,59 +61,93 @@ router.get('/current', requireAuth, async (req, res) => {
   } else {
     res.status(404).json({ message: "No bookings found" });
   }
-
-
 });
 
-//get booking by spot ID
-router.get('/bookings/:spotId', requireAuth, async (req, res) => {
-  const spotId = req.params.spotId;
+//EDIT A BOOKING BY ID
+router.put('/:bookingId', requireAuth, async (req, res) => {
+  const { bookingId } = req.params;
+  const userId = req.user.id;
+  const { startDate, endDate } = req.body;
 
-  const spot = await Spot.findByPk(spotId);
-  if (!spot) {
-    return res.status(404).json({ message: "Spot couldn't be found" });
+  const booking = await Booking.findByPk(bookingId);
+  if (!booking || booking.userId !== userId) {
+    return res.status(404).json({ message: "Booking couldn't be found" });
   }
 
-  const bookings = await Booking.findAll({
-    where: { spotId: spotId },
-    include: [{ model: User, attributes: ['id', 'firstName', 'lastName'] }]
+  const spotId = booking.spotId;
+
+  if (new Date(booking.endDate) < new Date()) {
+    return res.status(403).json({ message: "Past bookings can't be modified" });
+  }
+
+  if (new Date(startDate) >= new Date(endDate)) {
+    return res.status(400).json({
+      message: "Bad Request",
+      errors: {
+        endDate: "endDate cannot come before startDate",
+      },
+    });
+  }
+
+  const overlap = await Booking.findAll({
+    where: {
+      spotId: spotId,
+      [Op.or]: [
+        {
+          startDate: {
+            [Op.between]: [new Date(startDate), new Date(endDate)],
+          },
+        },
+        {
+          endDate: {
+            [Op.between]: [new Date(startDate), new Date(endDate)],
+          },
+        },
+      ],
+    },
   });
 
-  const isOwner = req.user && req.user.id === spot.ownerId;
+  const overlapBookings = overlap.filter(
+    (existing) => existing.id !== bookingId
+  );
 
-  let res = {
-    Bookings: []
-  };
-
-  for (let booking of bookings) {
-    let data = {};
-
-    if (isOwner) {
-      data.User = {
-        id: booking.User.id,
-        firstName: booking.User.firstName,
-        lastName: booking.User.lastName
-      };
-      data.id = booking.id;
-      data.spotId = booking.spotId;
-      data.userId = booking.userId;
-      data.startDate = booking.startDate;
-      data.endDate = booking.endDate;
-      data.createdAt = booking.createdAt;
-      data.updatedAt = booking.updatedAt;
-    } else {
-      data.spotId = booking.spotId;
-      data.startDate = booking.startDate;
-      data.endDate = booking.endDate;
-    }
-
-    res.Bookings.push(data);
+  if (overlapBookings.length > 0) {
+    return res.status(400).json({
+      message: "Sorry, this spot is already booked for the specified dates",
+      errors: {
+        startDate: "Start date conflicts with an existing booking",
+        endDate: "End date conflicts with an existing booking",
+      },
+    });
   }
 
-  res.json(res);
+  await booking.update({
+    startDate: moment(startDate).format('YYYY-MM-DD'),
+    endDate: moment(endDate).format('YYYY-MM-DD')
+  });
+
+  return res.status(200).json(booking);
 });
 
+router.delete('/:bookingId', requireAuth, async (req, res) => {
+  const { bookingId } = req.params;
+  const userId = req.user.id;
 
+  const booking = await Booking.findByPk(bookingId);
+
+  if (!booking || booking.userId !== userId) {
+    return res.status(404).json({ message: "Booking couldn't be found" });
+  }
+
+  const currentDate = new Date();
+  if (new Date(booking.startDate) <= currentDate) {
+    return res.status(403).json({ message: "Bookings that have been started can't be deleted" });
+  }
+
+  await booking.destroy();
+
+  return res.status(200).json({ message: "Successfully deleted" });
+});
 
 
 
