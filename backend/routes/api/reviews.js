@@ -12,25 +12,8 @@ const router = express.Router();
 
 router.get('/current', requireAuth, async (req, res) => {
   const reviews = await Review.findAll({
-    include: [
-      {
-        model: User,
-        attributes: ['id', 'firstName', 'lastName']
-      },
-      {
-        model: Spot,
-        include: [
-          {
-            model: SpotImage,
-            attributes: ['url'],
-          }
-        ]
-      },
-      {
-        model: ReviewImage,
-        attributes: ['id', 'url']
-      }
-    ]
+    where: { userId: req.user.id },
+    include: [{ model: Spot }, { model: ReviewImage }]
   });
 
   res.status(200).json({ Reviews: reviews });

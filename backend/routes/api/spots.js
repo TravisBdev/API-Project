@@ -163,6 +163,42 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
   }
 })
 
+//create review based on spot ID
+router.post('/:spotId/reviews', requireAuth, async (req, res) => {
+  const { spotId } = req.params;
+  const { review, stars } = req.body;
+  const userId = req.user.id;
+
+  const spot = await Spot.findByPk(spotId);
+  if (!spot) {
+    return res.status(404).json({ errors: { message: "Spot couldn't be found." } });
+  }
+
+  const exists = await Review.findOne({
+    where: {
+      spotId,
+      userId
+    }
+  })
+
+  if (exists) {
+    res.status(500)
+    return res.json('User already has a review for this spot')
+  }
+
+  // Create a new review
+  const newReview = await Review.create({
+    spotId,
+    userId,
+    review,
+    stars
+  });
+  console.log(newReview.id)
+
+  res.status(201).json(newReview)
+
+})
+
 
 //get details of spot by id
 router.get('/:spotId', async (req, res) => {
