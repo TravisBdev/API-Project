@@ -10,7 +10,7 @@ const sequelize = require('sequelize');
 const router = express.Router();
 
 //DELETE SPOT IMAGE
-router.delete('/spot-images/:imageId', requireAuth, async (req, res) => {
+router.delete('/:imageId', requireAuth, async (req, res) => {
   const image = await SpotImage.findByPk(req.params.imageId);
 
   if (!image) {
