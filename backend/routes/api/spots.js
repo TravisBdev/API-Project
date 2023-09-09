@@ -401,6 +401,14 @@ router.get('/:spotId', async (req, res) => {
     { model: Review },
     { model: SpotImage, attributes: ['id', 'preview', 'url'] }]
   })
+
+  if (!spot) {
+    res.status(404)
+    return res.json({
+      message: "Spot couldn't be found"
+    })
+  }
+
   const spotObj = spot.toJSON()
 
   let stars = []
@@ -433,6 +441,13 @@ router.put('/:spotId', requireAuth, spotValidation, async (req, res) => {
     res.status(404)
     return res.json({
       message: "Spot couldn't be found"
+    })
+  }
+
+  if (req.user.id != changeSpot.ownerId) {
+    res.status(404)
+    return res.json({
+      message: 'Spot must belong to the current user'
     })
   }
 
