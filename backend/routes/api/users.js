@@ -8,6 +8,14 @@ const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
 const validateSignup = [
+  check('firstName')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 1, max: 255 })
+    .withMessage('First Name is required.'),
+  check('lastName')
+    .exists({ checkFalsy: true })
+    .isLength({ min: 1, max: 255 })
+    .withMessage('Last Name is required.'),
   check('email')
     .exists({ checkFalsy: true })
     .isEmail()

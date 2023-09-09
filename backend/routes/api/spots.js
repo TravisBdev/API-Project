@@ -149,6 +149,12 @@ router.get('/current', requireAuth, async (req, res,) => {
 
 })
 
+const validateReview = [
+  check('review').exists({ checkFalsy: true }).isLength({ min: 2, max: 255 }).withMessage('Review text is required'),
+  check('stars').exists({ checkFalsy: true }).isInt({ min: 1, max: 5 }).withMessage('Stars must be an integer from 1 to 5'),
+  handleValidationErrors
+]
+
 const spotValidation = [
   check('address').exists({ checkFalsy: true }).withMessage('Street address is required'),
   check('city').exists({ checkFalsy: true }).withMessage('City is required'),
@@ -168,7 +174,7 @@ const spotValidation = [
 router.post('/', requireAuth, spotValidation, async (req, res) => {
   const { address, city, state, country, lat, lng, name, description, price, ownerId } = req.body
   const makeSpot = await Spot.create({
-    ownerId,
+    ownerId: req.user.id,
     address,
     city,
     state,
@@ -359,7 +365,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
 });
 
 //CREATE REVIEW BY SPOT ID
-router.post('/:spotId/reviews', requireAuth, async (req, res) => {
+router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) => {
   const { spotId } = req.params;
   const { review, stars } = req.body;
   const userId = req.user.id;
@@ -378,7 +384,9 @@ router.post('/:spotId/reviews', requireAuth, async (req, res) => {
 
   if (exists) {
     res.status(500)
-    return res.json('User already has a review for this spot')
+    return res.json({
+      message: 'User already has a review for this spot'
+    })
   }
 
   const newReview = await Review.create({
@@ -445,7 +453,7 @@ router.put('/:spotId', requireAuth, spotValidation, async (req, res) => {
   }
 
   if (req.user.id != changeSpot.ownerId) {
-    res.status(404)
+    res.status(403)
     return res.json({
       message: 'Spot must belong to the current user'
     })
