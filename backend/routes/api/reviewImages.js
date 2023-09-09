@@ -4,27 +4,34 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth')
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { Spot, SpotImage, Review, User } = require('../../db/models');
+const { Spot, SpotImage, Review, ReviewImage, User } = require('../../db/models');
 const sequelize = require('sequelize');
 
 const router = express.Router();
 
-//DELETE SPOT IMAGE
+//DELETE REVIEW IMAGE BY ID
 router.delete('/:imageId', requireAuth, async (req, res) => {
-  const image = await SpotImage.findByPk(req.params.imageId);
+  const imageId = req.params.imageId;
 
-  if (!image) {
-    return res.status(404).json({
-      message: "Image couldn't be found",
-    });
+  const reviewImg = await ReviewImage.findByPk(imageId);
+
+  if (!reviewImg) {
+    return res.status(404).json({ message: "Review image couldn't be found" });
   }
 
-  await image.destroy();
+  await reviewImg.destroy();
 
-  return res.status(200).json({
-    message: "Successfully deleted",
-  });
+  return res.status(200).json({ message: 'Successfully deleted' });
 });
+
+
+
+
+
+
+
+
+
 
 
 module.exports = router

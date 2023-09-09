@@ -21,10 +21,11 @@ module.exports = {
         references: {
           model: 'Reviews',
         },
+        // onDelete: 'CASCADE',
       },
       url: {
         type: Sequelize.STRING,
-        allowNull: false,
+        onDelete: 'CASCADE',
       },
       createdAt: {
         allowNull: false,

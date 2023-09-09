@@ -9,9 +9,10 @@ const sequelize = require('sequelize');
 
 const router = express.Router();
 
-
+//GET ALL REVIEWS BY USER ID
 router.get('/current', requireAuth, async (req, res) => {
   const reviews = await Review.findAll({
+    where: { userId: req.user.id },
     include: [
       {
         model: User,
@@ -22,6 +23,7 @@ router.get('/current', requireAuth, async (req, res) => {
         include: [
           {
             model: SpotImage,
+            where: { preview: true },
             attributes: ['url'],
           }
         ]
@@ -33,24 +35,75 @@ router.get('/current', requireAuth, async (req, res) => {
     ]
   });
 
-  res.status(200).json({ Reviews: reviews });
+  const flatRev = reviews.map(review => {
+    const revObj = review.toJSON();
+    if (revObj.Spot.SpotImages[0]) {
+      revObj.Spot.previewImage = revObj.Spot.SpotImages[0].url;
+    }
+    delete revObj.Spot.SpotImages;
+    return revObj;
+  });
+
+  res.status(200).json({ Reviews: flatRev });
 
 });
 
+//CREATE REVIEW IMAGE BY REVIEW ID
+router.post('/:reviewId/images', requireAuth, async (req, res) => {
+  const reviewId = req.params.reviewId;
+  const { url } = req.body;
+  const review = await Review.findByPk(reviewId);
 
+  if (!review) {
+    return res.status(404).json({ message: "Review couldn't be found" });
+  }
 
+  const newImg = await ReviewImage.create({
+    reviewId,
+    url
+  });
 
+  return res.status(200).json({
+    id: newImg.id,
+    url: newImg.url
+  });
+});
 
+//EDIT REVIEW BY REVIEW ID
+router.put('/:reviewId', requireAuth, async (req, res) => {
+  const reviewId = req.params.reviewId;
+  const { review, stars } = req.body;
 
+  const current = await Review.findByPk(reviewId);
 
+  if (!current) {
+    return res.status(404).json({ message: "Review couldn't be found" });
+  }
 
+  current.review = review;
+  current.stars = stars;
 
+  await current.save();
 
+  return res.status(200).json({
+    review: current.review,
+    stars: current.stars,
+  });
+});
 
+//DELETE REVIEW BY REVIEW ID
+router.delete('/:reviewId', requireAuth, async (req, res) => {
+  const reviewId = req.params.reviewId;
+  const review = await Review.findByPk(reviewId);
 
+  if (!review) {
+    return res.status(404).json({ message: "Review couldn't be found" });
+  }
 
+  await review.destroy();
 
-
+  return res.status(200).json({ message: 'Successfully deleted' });
+});
 
 
 
