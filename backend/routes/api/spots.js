@@ -21,23 +21,31 @@ const validateLogin = [
   handleValidationErrors
 ];
 
+const deciValidator = () => {
+  return value => {
+    const regex = /^-?\d{1,3}\.\d{1,7}$/;
+    if (!regex.test(value)) {
+      throw new Error('Invalid decimal format');
+    }
+    return true;
+  };
+};
+
 const queryValidations = [
   query('page').optional().isInt({ min: 1, max: 10 }).withMessage('Page must be greater than or equal to 1'),
   query('size').optional().isInt({ min: 1, max: 20 }).withMessage('Size must be greater than or equal to 1'),
-  query('minLat').optional().isFloat().withMessage('Minimum latitude is invalid'),
-  query('maxLat').optional().isFloat().withMessage('Maximum latitude is invalid'),
-  query('minLng').optional().isFloat().withMessage('Minimum longitude is invalid'),
-  query('maxLng').optional().isFloat().withMessage('Maximum longitude is invalid'),
+  query('minLat').optional().custom(deciValidator()).withMessage('Minimum latitude is invalid'),
+  query('maxLat').optional().custom(deciValidator()).withMessage('Maximum latitude is invalid'),
+  query('minLng').optional().custom(deciValidator()).withMessage('Minimum longitude is invalid'),
+  query('maxLng').optional().custom(deciValidator()).withMessage('Maximum longitude is invalid'),
   query('minPrice').optional().isFloat({ min: 0 }).withMessage('Minimum price must be greater than or equal to 0'),
   query('maxPrice').optional().isFloat({ min: 0 }).withMessage('Maximum price must be greater than or equal to 0'),
   handleValidationErrors
 ]
 
+
 //GET ALL SPOTS
 router.get('/', queryValidations, async (req, res) => {
-  // if (!errors.isEmpty()) {
-  //   return res.status(400).json({ message: "Bad Request", errors: errors.mapped() });
-  // }
 
   let page = 1;
   let size = 20;
@@ -221,17 +229,18 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
         firstName: booking.User.firstName,
         lastName: booking.User.lastName
       };
+
       data.id = booking.id;
       data.spotId = booking.spotId;
       data.userId = booking.userId;
-      data.startDate = moment(booking.startDate).format('YYYY-MM-DD');
-      data.endDate = moment(booking.endDate).format('YYYY-MM-DD');
+      data.startDate = booking.startDate.toISOString().replace('T', ' ').split('.')[0].split(' ')[0];
+      data.endDate = booking.endDate.toISOString().replace('T', ' ').split('.')[0].split(' ')[0];
       data.createdAt = booking.createdAt;
       data.updatedAt = booking.updatedAt;
     } else {
       data.spotId = booking.spotId;
-      data.startDate = moment(booking.startDate).format('YYYY-MM-DD');
-      data.endDate = moment(booking.endDate).format('YYYY-MM-DD');
+      data.startDate = booking.startDate.toISOString().replace('T', ' ').split('.')[0].split(' ')[0];
+      data.endDate = booking.endDate.toISOString().replace('T', ' ').split('.')[0].split(' ')[0];
     }
 
     results.Bookings.push(data);
@@ -249,6 +258,13 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
     return res.status(404).json({
       message: "Spot couldn't be found",
     });
+  }
+
+  if (req.user.id != spot.ownerId) {
+    res.status(403)
+    return res.json({
+      message: 'Spot must belong to the current user'
+    })
   }
 
   const newImg = await SpotImage.create({
@@ -304,7 +320,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
   }
 
   if (spot.ownerId === userId) {
-    return res.status(400).json({ message: "Bad Request" });
+    return res.status(403).json({ message: "You must not own the spot" });
   }
 
 
@@ -337,7 +353,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
   });
 
   if (overlap.length > 0) {
-    return res.status(400).json({
+    return res.status(403).json({
       message: "Sorry, this spot is already booked for the specified dates",
       errors: {
         startDate: "Start date conflicts with an existing booking",
@@ -357,8 +373,8 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     id: newBooking.id,
     spotId: newBooking.spotId,
     userId: newBooking.userId,
-    startDate: moment(newBooking.startDate).format('YYYY-MM-DD'),
-    endDate: moment(newBooking.endDate).format('YYYY-MM-DD'),
+    startDate: newBooking.startDate.toISOString().replace('T', ' ').split('.')[0].split(' ')[0],
+    endDate: newBooking.endDate.toISOString().replace('T', ' ').split('.')[0].split(' ')[0],
     createdAt: newBooking.createdAt,
     updatedAt: newBooking.updatedAt,
   });
@@ -483,6 +499,10 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
     return res.json({
       message: "Spot couldn't be found"
     })
+  }
+
+  if (spot.ownerId != req.user.id) {
+    return res.status(403).json({ message: 'Not authorized to delete this spot' });
   }
 
   await spot.destroy()
