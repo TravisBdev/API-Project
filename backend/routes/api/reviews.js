@@ -9,6 +9,12 @@ const sequelize = require('sequelize');
 
 const router = express.Router();
 
+const validateReview = [
+  check('review').exists({ checkFalsy: true }).isLength({ min: 2, max: 255 }).withMessage('Review text is required'),
+  check('stars').exists({ checkFalsy: true }).isInt({ min: 1, max: 5 }).withMessage('Stars must be an integer from 1 to 5'),
+  handleValidationErrors
+]
+
 //GET ALL REVIEWS BY USER ID
 router.get('/current', requireAuth, async (req, res) => {
   const reviews = await Review.findAll({
@@ -20,6 +26,9 @@ router.get('/current', requireAuth, async (req, res) => {
       },
       {
         model: Spot,
+        attributes: {
+          exclude: ['description', 'createdAt', 'updatedAt']
+        },
         include: [
           {
             model: SpotImage,
@@ -58,6 +67,19 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     return res.status(404).json({ message: "Review couldn't be found" });
   }
 
+  if (req.user.id != review.userId) {
+    res.status(403)
+    return res.json({
+      message: 'Review must belong to the current user'
+    })
+  }
+
+  const imageCount = await ReviewImage.count({ where: { reviewId } });
+
+  if (imageCount >= 10) {
+    return res.status(403).json({ message: "Cannot add more than 10 images for a review" });
+  }
+
   const newImg = await ReviewImage.create({
     reviewId,
     url
@@ -70,7 +92,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
 });
 
 //EDIT REVIEW BY REVIEW ID
-router.put('/:reviewId', requireAuth, async (req, res) => {
+router.put('/:reviewId', requireAuth, validateReview, async (req, res) => {
   const reviewId = req.params.reviewId;
   const { review, stars } = req.body;
 
@@ -80,15 +102,21 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
     return res.status(404).json({ message: "Review couldn't be found" });
   }
 
+  if (req.user.id != current.userId) {
+    res.status(403)
+    return res.json({
+      message: 'Review must belong to the current user'
+    })
+  }
+
   current.review = review;
   current.stars = stars;
 
   await current.save();
 
-  return res.status(200).json({
-    review: current.review,
-    stars: current.stars,
-  });
+  const reviewObj = current.toJSON()
+
+  return res.status(200).json(reviewObj);
 });
 
 //DELETE REVIEW BY REVIEW ID

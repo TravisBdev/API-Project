@@ -1,5 +1,4 @@
 const express = require('express');
-const moment = require('moment');
 const { Op } = require('sequelize');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -49,8 +48,8 @@ router.get('/current', requireAuth, async (req, res) => {
       spotId: bookingObj.spotId,
       Spot: spot,
       userId: bookingObj.userId,
-      startDate: moment(bookingObj.startDate).format('YYYY-MM-DD'),
-      endDate: moment(bookingObj.endDate).format('YYYY-MM-DD'),
+      startDate: bookingObj.startDate.toISOString().replace('T', ' ').split('.')[0].split(' ')[0],
+      endDate: bookingObj.endDate.toISOString().replace('T', ' ').split('.')[0].split(' ')[0],
       createdAt: bookingObj.createdAt,
       updatedAt: bookingObj.updatedAt
     };
@@ -69,9 +68,16 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
   const userId = req.user.id;
   const { startDate, endDate } = req.body;
 
+
   const booking = await Booking.findByPk(bookingId);
   if (!booking || booking.userId !== userId) {
     return res.status(404).json({ message: "Booking couldn't be found" });
+  }
+
+  if (booking.userId !== userId) {
+    return res.status(403).json({
+      message: 'Booking must belong to the current user'
+    });
   }
 
   const spotId = booking.spotId;
@@ -112,7 +118,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
   );
 
   if (overlapBookings.length > 0) {
-    return res.status(400).json({
+    return res.status(403).json({
       message: "Sorry, this spot is already booked for the specified dates",
       errors: {
         startDate: "Start date conflicts with an existing booking",
@@ -122,11 +128,19 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
   }
 
   await booking.update({
-    startDate: moment(startDate).format('YYYY-MM-DD'),
-    endDate: moment(endDate).format('YYYY-MM-DD')
+    startDate: new Date(startDate).toISOString().replace('T', ' ').split('.')[0].split(' ')[0],
+    endDate: new Date(endDate).toISOString().replace('T', ' ').split('.')[0].split(' ')[0]
   });
 
-  return res.status(200).json(booking);
+  return res.status(200).json({
+    id: booking.id,
+    spotId: booking.spotId,
+    userId: booking.userId,
+    startDate: new Date(booking.startDate).toISOString().replace('T', ' ').split('.')[0].split(' ')[0],
+    endDate: new Date(booking.endDate).toISOString().replace('T', ' ').split('.')[0].split(' ')[0],
+    createdAt: booking.createdAt,
+    updatedAt: booking.updatedAt
+  });
 });
 
 
@@ -135,10 +149,19 @@ router.delete('/:bookingId', requireAuth, async (req, res) => {
   const { bookingId } = req.params;
   const userId = req.user.id;
 
-  const booking = await Booking.findByPk(bookingId);
+  const booking = await Booking.findByPk(bookingId, {
+    include: [{
+      model: Spot,
+      attributes: ['ownerId']
+    }]
+  });
 
-  if (!booking || booking.userId !== userId) {
+  if (!booking) {
     return res.status(404).json({ message: "Booking couldn't be found" });
+  }
+
+  if (booking.userId != userId && booking.Spot.ownerId != userId) {
+    return res.status(403).json({ message: "Booking or spot must belong to the current user" });
   }
 
   const currentDate = new Date();
