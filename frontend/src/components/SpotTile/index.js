@@ -3,11 +3,11 @@ import './SpotTile.css'
 
 const SpotTile = ({ spot }) => {
   return (
-    <Link to={`/spots/${spot.id}`}>
+    <Link to={`/spots/${spot.id}`} className='link'>
       <div className="spot-tile">
         <div className="tooltip">{spot.name}</div>
         <div className="img-container">
-          <img src={spot.previewImage} alt={spot.name} className="preview-img" />
+          <img src={spot.previewImage} alt='' className="preview-img" />
           <div className="location">
             {spot.city}, {spot.state}
           </div>

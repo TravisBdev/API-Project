@@ -111,7 +111,6 @@ const spotsReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_SPOTS:
       const spotsState = {}
-      console.log(action.spots);
       action.spots.Spots.forEach((spot) => {
         spotsState[spot.id] = spot
       })
