@@ -5,6 +5,7 @@ const SpotTile = ({ spot }) => {
   return (
     <Link to={`/spots/${spot.id}`}>
       <div className="spot-tile">
+        <div className="tooltip">{spot.name}</div>
         <div className="img-container">
           <img src={spot.previewImage} alt={spot.name} className="preview-img" />
           <div className="location">

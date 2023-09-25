@@ -1,0 +1,15 @@
+.spot-tile .tooltip {
+  visibility: hidden;
+  background-color: darkorange;
+  color: #fff;
+  text-align: center;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.spot-tile:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
