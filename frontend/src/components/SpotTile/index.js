@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import './SpotTile.css'
 
 const SpotTile = ({ spot }) => {
   return (
     <Link to={`/spots/${spot.id}`}>
       <div className="spot-tile">
         <div className="img-container">
-          <img src={spot.previewImage} alt='image of a spot' className="preview-img" />
+          <img src={spot.previewImage} alt={spot.name} className="preview-img" />
           <div className="location">
             {spot.city}, {spot.state}
           </div>
