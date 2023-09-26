@@ -18,3 +18,8 @@
   text-decoration: none;
   color: black;
 }
+
+.preview-img {
+  width: 200px;
+  height: 200px
+}

@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { getSpotDetails } from "../../store/spots";
+import './SpotDetails.css'
 
 const SpotDetails = () => {
   const dispatch = useDispatch()
-  const { spotId: spotIdstr } = useParams()
-  const spotId = Number(spotIdstr)
+  const { spotId } = useParams()
 
   const details = useSelector(state => state.spots[spotId])
 
@@ -34,7 +34,7 @@ const SpotDetails = () => {
       </div>
       <div className="img-container">
         {SpotImages?.map(img => (
-          <img src={img.url} alt="" key={img.id} />
+          <img className='spot-img' src={img.url} alt="" key={img.id} />
         ))}
       </div>
       <div className="host-deets">
