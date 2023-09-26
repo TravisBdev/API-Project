@@ -33,9 +33,9 @@ const SpotDetails = () => {
         {city}, {state}, {country}
       </div>
       <div className="img-container">
-        {/* {SpotImages.map(img => (
+        {SpotImages?.map(img => (
           <img src={img.url} alt="" key={img.id} />
-        ))} */}
+        ))}
       </div>
       <div className="host-deets">
         {/* <h2>Hosted by {Owner.firstName} {Owner.lastName}</h2> */}
