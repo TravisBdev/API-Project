@@ -180,15 +180,13 @@ const spotValidation = [
 
 //CREATE A SPOT
 router.post('/', requireAuth, spotValidation, async (req, res) => {
-  const { address, city, state, country, lat, lng, name, description, price, ownerId } = req.body
+  const { address, city, state, country, name, description, price } = req.body
   const makeSpot = await Spot.create({
     ownerId: req.user.id,
     address,
     city,
     state,
     country,
-    lat,
-    lng,
     name,
     description,
     price
@@ -196,8 +194,7 @@ router.post('/', requireAuth, spotValidation, async (req, res) => {
   if (!makeSpot) {
     return res.status(400).json()
   }
-  res.status(201)
-    .json(makeSpot)
+  res.status(201).json(makeSpot)
 })
 
 //GET BOOKINGS BY SPOT ID

@@ -1,11 +1,11 @@
 import { csrfFetch } from './csrf'
 
 
-export const LOAD_SPOTS = 'spots/loadSpots' //x
-export const UPDATE_SPOT = 'spots/updateSpot' //x
-export const CREATE_SPOT = 'spots/createSpot' //x
-export const DELETE_SPOT = 'spots/deleteSpot' //x
-export const SPOT_DETAILS = 'spots/details' //x
+export const LOAD_SPOTS = 'spots/loadSpots'
+export const UPDATE_SPOT = 'spots/updateSpot'
+export const CREATE_SPOT = 'spots/createSpot'
+export const DELETE_SPOT = 'spots/deleteSpot'
+export const SPOT_DETAILS = 'spots/details'
 
 
 //Action Creators
@@ -100,11 +100,11 @@ export const createASpot = (spot) => async dispatch => {
   if (res.ok) {
     const newSpot = await res.json()
     dispatch(createSpot(newSpot))
+    return newSpot
   } else {
     const err = await res.json()
     return err
   }
-
 }
 
 const spotsReducer = (state = {}, action) => {
