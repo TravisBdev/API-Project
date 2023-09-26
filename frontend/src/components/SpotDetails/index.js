@@ -24,7 +24,7 @@ const SpotDetails = () => {
 
   const { name, city, state, country, description, Owner, SpotImages } = details
 
-  console.log(SpotImages);
+  console.log('-----SpotImages', SpotImages);
 
   return (
     <div className="spot-deets">
@@ -38,7 +38,7 @@ const SpotDetails = () => {
         ))}
       </div>
       <div className="host-deets">
-        {/* <h2>Hosted by {Owner.firstName} {Owner.lastName}</h2> */}
+        <h2>Hosted by {Owner?.firstName} {Owner?.lastName}</h2>
         <p>{description}</p>
       </div>
     </div>
