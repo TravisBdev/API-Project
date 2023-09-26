@@ -22,7 +22,11 @@ const SpotDetails = () => {
     return null
   }
 
-  const { name, city, state, country, description, Owner, SpotImages } = details
+  const handleClick = () => {
+    alert('Feature Coming Soon...')
+  }
+
+  const { name, city, state, country, description, price, numReviews, avgRating, Owner, SpotImages } = details
 
   console.log('-----SpotImages', SpotImages);
 
@@ -40,6 +44,20 @@ const SpotDetails = () => {
       <div className="host-deets">
         <h2>Hosted by {Owner?.firstName} {Owner?.lastName}</h2>
         <p>{description}</p>
+        <div className="reserve-box">
+          <div className="reserve-deets">
+            <h3 className="price">{price} night</h3>
+            <div className="rating-reviews">
+              <i class="fa-solid fa-star fa-xs"></i>
+              {avgRating}
+              {numReviews}
+              reviews
+            </div>
+            <div className="reserve-btn">
+              <button onClick={handleClick}>Reserve</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
