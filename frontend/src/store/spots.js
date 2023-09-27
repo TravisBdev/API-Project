@@ -6,12 +6,14 @@ export const UPDATE_SPOT = 'spots/updateSpot'
 export const CREATE_SPOT = 'spots/createSpot'
 export const DELETE_SPOT = 'spots/deleteSpot'
 export const SPOT_DETAILS = 'spots/details'
+export const USER_SPOTS = 'spots/userSpots'
+// export const CREATE_AN_IMAGE = 'spots/createAnImage'
 
 
 //Action Creators
 export const loadSpots = (spots) => ({
   type: LOAD_SPOTS,
-  spots
+  spots: spots.Spots
 })
 
 export const updateSpot = (spot) => ({
@@ -34,12 +36,24 @@ export const deleteSpot = (spotId) => ({
   spotId
 })
 
+export const setUserSpots = (spots) => ({
+  type: USER_SPOTS,
+  spots
+})
+
+
+// export const createSpotImg = (image) => ({
+//   type: CREATE_AN_IMAGE,
+//   image
+// })
+
 //thunks
 
 export const getAllSpots = () => async dispatch => {
   const res = await fetch('/api/spots')
   if (res.ok) {
     const spots = await res.json()
+    console.log('SPOTS--->', spots);
     dispatch(loadSpots(spots))
   } else {
     const err = await res.json()
@@ -47,13 +61,13 @@ export const getAllSpots = () => async dispatch => {
   }
 }
 
-export const updateASpot = (spotId, updated) => async dispatch => {
+export const updateASpot = (spotId, data) => async dispatch => {
   const res = await csrfFetch(`/api/spots/${spotId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(updated)
+    body: JSON.stringify(data)
   })
   if (res.ok) {
     const spotData = await res.json()
@@ -75,43 +89,62 @@ export const getSpotDetails = (spotId) => async dispatch => {
   }
 }
 
-export const deleteASpot = (spotId) => async dispatch => {
-  const res = await csrfFetch(`/api/spots/${spotId}`, {
-    method: 'DELETE'
-  })
-
-  if (res.ok) {
-    dispatch(deleteSpot(spotId))
-  } else {
-    const err = await res.json()
-    return err
-  }
-}
-
 export const createASpot = (spot) => async dispatch => {
-  const res = await csrfFetch(`/api/spots`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(spot)
-  })
-
-  if (res.ok) {
-    const newSpot = await res.json()
-    dispatch(createSpot(newSpot))
-    return newSpot
-  } else {
-    const err = await res.json()
-    return err
+  try {
+    const res = await csrfFetch(`/api/spots`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(spot)
+    })
+    const createdSpot = await res.json()
+    dispatch(createSpot(createdSpot))
+    return createdSpot
+  } catch (error) {
+    console.error(error.message);
   }
 }
+
+export const getUserSpots = () => async dispatch => {
+  try {
+    const res = await csrfFetch('/api/spots/current')
+
+    if (res.ok) {
+      const userSpots = await res.json()
+      console.log('USERSPOTS ->', userSpots);
+      dispatch(setUserSpots(userSpots.Spots))
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const deleteASpot = (spotId) => async dispatch => {
+  try {
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
+      method: 'DELETE'
+    })
+
+    if (res.ok) {
+      dispatch(deleteSpot(spotId))
+      return spotId
+    } else {
+      const err = await res.json()
+      return err
+    }
+  } catch (err) {
+    console.error(err.message)
+  }
+}
+
+
 
 const spotsReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_SPOTS:
       const spotsState = {}
-      action.spots.Spots.forEach((spot) => {
+      action.spots.forEach((spot) => {
         spotsState[spot.id] = spot
       })
       return spotsState
@@ -122,9 +155,11 @@ const spotsReducer = (state = {}, action) => {
     case CREATE_SPOT:
       return { ...state, [action.spot.id]: action.spot }
 
-
     case SPOT_DETAILS:
       return { ...state, [action.spot.id]: action.spot }
+
+    case USER_SPOTS:
+      return { ...state, userSpots: action.spots }
 
     case DELETE_SPOT:
       const newState = { ...state }
@@ -134,6 +169,25 @@ const spotsReducer = (state = {}, action) => {
     default:
       return state
   }
+
+
+  // const createAnImage = (spotId, image) => async dispatch => {
+  //   const res = await csrfFetch(`/api/spots/${spotId}/images`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(image)
+  //   })
+
+  //   if(res.ok){
+  //     const createdImg = res.json()
+  //     dispatch(createSpotImg(createdImg))
+  //   }else {
+  //     const err = res.json
+  //     return err
+  //   }
+  // }
 }
 
 export default spotsReducer

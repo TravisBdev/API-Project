@@ -12,7 +12,7 @@ const SpotTile = ({ spot }) => {
             {spot.city}, {spot.state}
           </div>
           <div className="avg-rating">
-            {spot.avgRating ? <><i class="fa-solid fa-star fa-xs"></i> {spot.avgRating}</> : 'New'}
+            {spot.avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {spot.avgRating}</> : 'New'}
           </div>
         </div>
         <div className="price">

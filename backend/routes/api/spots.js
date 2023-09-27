@@ -168,8 +168,6 @@ const spotValidation = [
   check('city').exists({ checkFalsy: true }).withMessage('City is required'),
   check('state').exists({ checkFalsy: true }).withMessage('State is required'),
   check('country').exists({ checkFalsy: true }).withMessage('Country is required'),
-  check('lat').exists({ checkFalsy: true }).isFloat().withMessage('Latitude is not valid'),
-  check('lng').exists({ checkFalsy: true }).isFloat().withMessage('Longitude is not valid'),
   check('name').exists({ checkFalsy: true }).isLength({ min: 2, max: 49 }).withMessage('Name must be less than 50 characters'),
   check('description').exists({ checkFalsy: true }).withMessage('Description is required'),
   check('price').exists({ checkFalsy: true }).withMessage('Price per day is required'),

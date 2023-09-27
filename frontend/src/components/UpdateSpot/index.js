@@ -1,66 +1,32 @@
-import { useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import { createASpot } from '../../store/spots';
-import './CreateSpot.css'
+import { updateASpot, getSpotDetails } from "../../store/spots";
+import './UpdateSpot.css'
 
-
-const CreateSpot = () => {
+const UpdateSpot = () => {
   const history = useHistory()
   const dispatch = useDispatch()
+  const { spotId } = useParams()
 
-  const [country, setCountry] = useState('')
-  const [address, setAddress] = useState('')
-  const [city, setCity] = useState('')
-  const [state, setState] = useState('')
-  const [description, setDescription] = useState('')
-  const [title, setTitle] = useState('')
-  const [price, setPrice] = useState('')
-  const [previewImage, setPreviewImage] = useState('')
-  const [imgOneUrl, setImgOneUrl] = useState('')
-  const [imgTwoUrl, setImgTwoUrl] = useState('')
-  const [imgThreeUrl, setImgThreeUrl] = useState('')
-  const [imgFourUrl, setImgFourUrl] = useState('')
-  // const [errors, setErrors] = useState({})
-  // const [didSubmit, setDidSubmit] = useState(false)
+  const spot = useSelector(state => state.spots[spotId])
+
+  useEffect(() => {
+    dispatch(getSpotDetails(spotId));
+  }, [dispatch, spotId]);
+
+  const [country, setCountry] = useState(spot?.country)
+  const [address, setAddress] = useState(spot?.address)
+  const [city, setCity] = useState(spot?.state)
+  const [description, setDescription] = useState(spot?.description)
+  const [title, setTitle] = useState(spot?.title)
+  const [price, setPrice] = useState(spot?.price)
+  const [previewImage, setPreviewImage] = useState(spot?.previewImage)
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setDidSubmit(true)
-    // setErrors({})
-    // const errsObj = {}
-    // const endings = ['.jpg', '.png', '.jpeg']
 
-    // const checkEndings = (url) => {
-    //   endings.forEach(ending => {
-    //     if (url.endsWith(ending)) {
-    //       return true
-    //     }
-    //   })
-    //   return false
-    // }
-
-    // const urlError = 'Image URL must end in .png, .jpg, or .jpeg'
-
-    // if (!country) errsObj.country = 'Country is required'
-    // if (!address) errsObj.address = 'Address is required'
-    // if (!city) errsObj.city = 'City is required'
-    // if (!state) errsObj.state = 'State is required'
-    // if (!description || description.length < 30) errsObj.description = 'Description needs a minimum of 30 characters'
-    // if (!title) errsObj.title = 'Name is required'
-    // if (!price) errsObj.price = 'Price is required'
-    // if (!prevImg) errsObj.prevImg = 'Preview image is required'
-    // if (!checkEndings(prevImg)) errsObj.imgOneUrl = urlError
-    // if (!checkEndings(imgOneUrl)) errsObj.imgOneUrl = urlError
-    // if (!checkEndings(imgTwoUrl)) errsObj.imgOneUrl = urlError
-    // if (!checkEndings(imgThreeUrl)) errsObj.imgOneUrl = urlError
-    // if (!checkEndings(imgFourUrl)) errsObj.imgOneUrl = urlError
-
-    // if (Object.keys(errsObj) > 0) {
-    //   setErrors(errsObj)
-    //   return
-    // }
 
     const data = {
       country,
@@ -73,15 +39,14 @@ const CreateSpot = () => {
       previewImage
     }
 
-    const createdSpot = dispatch(createASpot(data))
 
-    if (createdSpot) {
-      history.push(`/spots/${createdSpot.id}`)
+    const updatedSpot = dispatch(updateASpot(spotId, data))
+
+    if (updatedSpot) {
+      history.push(`/spots/${updatedSpot.id}`)
     }
-  };
 
-
-
+  }
 
   return (
     <form className="create-spot-form" onSubmit={handleSubmit}>
@@ -156,11 +121,11 @@ const CreateSpot = () => {
         </div>
 
         <div className="button-box">
-          <button type='submit'>Create Spot</button>
+          <button type='submit'>Update Spot</button>
         </div>
       </div>
     </form>
   )
 }
 
-export default CreateSpot
+export default UpdateSpot

@@ -28,7 +28,7 @@ const SpotDetails = () => {
 
   const { name, city, state, country, description, price, numReviews, avgRating, Owner, SpotImages } = details
 
-  console.log('-----SpotImages', SpotImages);
+  // console.log('-----SpotImages', SpotImages);
 
   return (
     <div className="spot-deets">
@@ -48,7 +48,7 @@ const SpotDetails = () => {
           <div className="reserve-deets">
             <h3 className="price">{price} night</h3>
             <div className="rating-reviews">
-              {avgRating ? <><i class="fa-solid fa-star fa-xs"></i> {avgRating} {numReviews} reviews</> : 'New'}
+              {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating} {numReviews} reviews</> : 'New'}
             </div>
             <div className="reserve-btn">
               <button onClick={handleClick}>Reserve</button>
