@@ -31,15 +31,16 @@ export const spotDetails = (spot) => ({
   spot
 })
 
+export const setUserSpots = (spots) => ({
+  type: USER_SPOTS,
+  spots
+})
+
 export const deleteSpot = (spotId) => ({
   type: DELETE_SPOT,
   spotId
 })
 
-export const setUserSpots = (spots) => ({
-  type: USER_SPOTS,
-  spots
-})
 
 
 // export const createSpotImg = (image) => ({
@@ -47,7 +48,7 @@ export const setUserSpots = (spots) => ({
 //   image
 // })
 
-//thunks
+//Thunks
 
 export const getAllSpots = () => async dispatch => {
   const res = await fetch('/api/spots')
@@ -85,6 +86,7 @@ export const updateASpot = (spotId, data) => async dispatch => {
 
 export const getSpotDetails = (spotId) => async dispatch => {
   const res = await fetch(`/api/spots/${spotId}`)
+
   if (res.ok) {
     const spotData = await res.json()
     dispatch(spotDetails(spotData))
@@ -144,7 +146,7 @@ export const deleteASpot = (spotId) => async dispatch => {
   }
 }
 
-
+//Reducer
 
 const spotsReducer = (state = {}, action) => {
   switch (action.type) {

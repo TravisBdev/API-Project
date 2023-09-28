@@ -3,16 +3,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { getSpotDetails } from "../../store/spots";
+import ReviewList from "../ReviewList";
+
 import './SpotDetails.css'
 
 const SpotDetails = () => {
+  const sessionUser = useSelector(state => state.session.user);
+
   const dispatch = useDispatch()
   const { spotId } = useParams()
 
   const details = useSelector(state => state.spots[spotId])
 
-
-  // console.log('----->', details);
 
   useEffect(() => {
     dispatch(getSpotDetails(spotId))
@@ -28,7 +30,6 @@ const SpotDetails = () => {
 
   const { name, city, state, country, description, price, numReviews, avgRating, Owner, SpotImages } = details
 
-  // console.log('-----SpotImages', SpotImages);
 
   return (
     <div className="spot-deets">
@@ -55,6 +56,19 @@ const SpotDetails = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="reviews-box">
+
+        <div className="reviews-heading">
+          {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating} {numReviews} reviews</> : 'New'}
+          {sessionUser && <button>Post Your Review</button>}
+        </div>
+
+        <div className="review-list">
+          <ReviewList spotId={spotId} />
+        </div>
+
       </div>
     </div>
   )
