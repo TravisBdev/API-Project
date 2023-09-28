@@ -26,7 +26,7 @@ const ManageSpotTile = ({ spot }) => {
         ${spot.price} night
       </div>
       <div className="btn-box">
-        <Link to='/spots/:spotId'><button className="btn">Update</button></Link>
+        <Link to={`/spots/${spot.id}/edit`}><button className="btn">Update</button></Link>
         <button className="btn" onClick={handleDelete}>Delete</button>
       </div>
     </div>

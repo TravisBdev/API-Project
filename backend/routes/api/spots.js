@@ -1,12 +1,9 @@
 const express = require('express');
-const moment = require('moment');
 const { Op } = require('sequelize');
-const { check, query, validationResult } = require('express-validator');
+const { check, query } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth')
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const { Spot, SpotImage, Review, User, ReviewImage, Booking } = require('../../db/models');
-const sequelize = require('sequelize');
 
 const router = express.Router();
 
@@ -454,7 +451,7 @@ router.get('/:spotId', async (req, res) => {
 //EDIT SPOT BY ID
 router.put('/:spotId', requireAuth, spotValidation, async (req, res) => {
   const changeSpot = await Spot.findByPk(req.params.spotId)
-  const { address, city, state, country, lat, lng, name, description, price } = req.body
+  const { address, city, state, country, name, description, price } = req.body
 
   if (!changeSpot) {
     res.status(404)
@@ -474,8 +471,6 @@ router.put('/:spotId', requireAuth, spotValidation, async (req, res) => {
   changeSpot.city = city;
   changeSpot.state = state;
   changeSpot.country = country;
-  changeSpot.lat = lat;
-  changeSpot.lng = lng;
   changeSpot.name = name;
   changeSpot.description = description;
   changeSpot.price = price;

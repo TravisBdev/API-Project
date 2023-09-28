@@ -53,7 +53,6 @@ export const getAllSpots = () => async dispatch => {
   const res = await fetch('/api/spots')
   if (res.ok) {
     const spots = await res.json()
-    console.log('SPOTS--->', spots);
     dispatch(loadSpots(spots))
   } else {
     const err = await res.json()
@@ -62,19 +61,25 @@ export const getAllSpots = () => async dispatch => {
 }
 
 export const updateASpot = (spotId, data) => async dispatch => {
-  const res = await csrfFetch(`/api/spots/${spotId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  if (res.ok) {
+  try {
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
     const spotData = await res.json()
-    dispatch(updateSpot(spotData))
-  } else {
-    const err = await res.json()
-    return err
+    if (res.ok) {
+      dispatch(updateSpot(spotData))
+      return spotData
+    } else {
+      const err = await res.json()
+      return err
+    }
+  } catch (error) {
+    console.error(error.message)
   }
 }
 
@@ -98,9 +103,14 @@ export const createASpot = (spot) => async dispatch => {
       },
       body: JSON.stringify(spot)
     })
+
     const createdSpot = await res.json()
-    dispatch(createSpot(createdSpot))
-    return createdSpot
+    if (res.ok) {
+      dispatch(createSpot(createdSpot))
+      return createdSpot
+    } else {
+      return { errors: createdSpot.errors }
+    }
   } catch (error) {
     console.error(error.message);
   }
@@ -112,11 +122,10 @@ export const getUserSpots = () => async dispatch => {
 
     if (res.ok) {
       const userSpots = await res.json()
-      console.log('USERSPOTS ->', userSpots);
       dispatch(setUserSpots(userSpots.Spots))
     }
   } catch (error) {
-    console.error(error)
+    console.error(error.message)
   }
 }
 
@@ -129,12 +138,9 @@ export const deleteASpot = (spotId) => async dispatch => {
     if (res.ok) {
       dispatch(deleteSpot(spotId))
       return spotId
-    } else {
-      const err = await res.json()
-      return err
     }
-  } catch (err) {
-    console.error(err.message)
+  } catch (error) {
+    console.error(error.message)
   }
 }
 
