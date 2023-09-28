@@ -49,7 +49,7 @@ const SpotDetails = () => {
           <div className="reserve-deets">
             <h3 className="price">{price} night</h3>
             <div className="rating-reviews">
-              {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating} {numReviews} reviews</> : 'New'}
+              {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating} • {numReviews} reviews</> : 'New'}
             </div>
             <div className="reserve-btn">
               <button onClick={handleClick}>Reserve</button>
@@ -61,7 +61,7 @@ const SpotDetails = () => {
       <div className="reviews-box">
 
         <div className="reviews-heading">
-          {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating} {numReviews} reviews</> : 'New'}
+          {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating} • {numReviews} reviews</> : 'New'}
           {sessionUser && <button>Post Your Review</button>}
         </div>
 
