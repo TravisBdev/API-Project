@@ -7,7 +7,7 @@ const ReviewTile = ({ review }) => {
   const year = date.getFullYear()
   return (
     <div className="review-tile">
-      <h3>{review.User.firstName}</h3>
+      <h3>{review.User?.firstName}</h3>
       <p>{month} {year}</p>
       <p>{review.review}</p>
     </div>

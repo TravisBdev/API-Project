@@ -61,8 +61,8 @@ const CreateSpot = () => {
         history.push(`/spots/${createdSpot.id}`)
       }
 
-    } catch (err) {
-      console.error(err.message)
+    } catch (error) {
+      return error.message
     }
 
   };

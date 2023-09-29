@@ -1,14 +1,18 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-
+import { useModal } from "../../context/Modal";
 import { getSpotDetails } from "../../store/spots";
+
 import ReviewList from "../ReviewList";
+import ReviewModal from "../ReviewModal";
+
 
 import './SpotDetails.css'
 
 const SpotDetails = () => {
   const sessionUser = useSelector(state => state.session.user);
+  const { setModalContent } = useModal()
 
   const dispatch = useDispatch()
   const { spotId } = useParams()
@@ -24,11 +28,16 @@ const SpotDetails = () => {
     return null
   }
 
+  const postReview = () => {
+    setModalContent(<ReviewModal spotId={spotId} />);
+  };
+
   const handleClick = () => {
     alert('Feature Coming Soon...')
   }
 
   const { name, city, state, country, description, price, numReviews, avgRating, Owner, SpotImages } = details
+
 
 
   return (
@@ -49,7 +58,7 @@ const SpotDetails = () => {
           <div className="reserve-deets">
             <h3 className="price">{price} night</h3>
             <div className="rating-reviews">
-              {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating} • {numReviews} reviews</> : 'New'}
+              {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating.toFixed(2)} • {numReviews} reviews</> : 'New'}
             </div>
             <div className="reserve-btn">
               <button onClick={handleClick}>Reserve</button>
@@ -61,8 +70,8 @@ const SpotDetails = () => {
       <div className="reviews-box">
 
         <div className="reviews-heading">
-          {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating} • {numReviews} reviews</> : 'New'}
-          {sessionUser && <button>Post Your Review</button>}
+          {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating.toFixed(2)} • {numReviews} reviews</> : 'New'}
+          {sessionUser && <button onClick={postReview}>Post Your Review</button>}
         </div>
 
         <div className="review-list">

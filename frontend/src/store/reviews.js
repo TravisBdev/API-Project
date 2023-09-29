@@ -1,5 +1,6 @@
 import { csrfFetch } from "./csrf";
 
+
 export const LOAD_REVIEWS = 'reviews/loadReviews'
 export const CREATE_REVIEW = 'reviews/createReview'
 export const DELETE_REVIEW = 'reviews/deleteReview'
@@ -48,7 +49,7 @@ export const createAReview = (spotId, data) => async dispatch => {
 
     const createdReview = await res.json()
     if (res.ok) {
-      dispatch(createReview(data))
+      dispatch(createReview(createdReview))
       return createdReview
     } else {
       return { errors: createdReview.errors }
