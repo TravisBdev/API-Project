@@ -14,6 +14,10 @@ const ManageSpots = () => {
 
   return (
     <div>
+      <div>
+        <h1>Manage Spots</h1>
+        <button>Create a New Spot</button>
+      </div>
       {spots?.map(spot => <ManageSpotTile key={spot.id} spot={spot} />)}
     </div>
   )

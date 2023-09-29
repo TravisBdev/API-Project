@@ -17,11 +17,11 @@ const CreateSpot = () => {
   const [description, setDescription] = useState('')
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
-  // const [previewImage, setPreviewImage] = useState('')
-  // const [imgOneUrl, setImgOneUrl] = useState('')
-  // const [imgTwoUrl, setImgTwoUrl] = useState('')
-  // const [imgThreeUrl, setImgThreeUrl] = useState('')
-  // const [imgFourUrl, setImgFourUrl] = useState('')
+  const [previewImage, setPreviewImage] = useState('')
+  const [imgOneUrl, setImgOneUrl] = useState('')
+  const [imgTwoUrl, setImgTwoUrl] = useState('')
+  const [imgThreeUrl, setImgThreeUrl] = useState('')
+  const [imgFourUrl, setImgFourUrl] = useState('')
   const [errors, setErrors] = useState({})
 
 
@@ -50,6 +50,7 @@ const CreateSpot = () => {
       description,
       name,
       price,
+      previewImage
     }
 
     try {
@@ -121,7 +122,7 @@ const CreateSpot = () => {
           {errors.price && <span className="error">{errors.price}</span>}
         </div>
 
-        {/* <div className="photo-box">
+        <div className="photo-box">
           <h2>Liven up your spot with photos</h2>
           <p>Submit a link to at least one photo to publish your spot.</p>
 
@@ -134,7 +135,7 @@ const CreateSpot = () => {
           <input type="url" placeholder='Image URL' className='spot-img' value={imgThreeUrl} onChange={(e) => setImgThreeUrl(e.target.value)} />
 
           <input type="url" placeholder='Image URL' className='spot-img' value={imgFourUrl} onChange={(e) => setImgFourUrl(e.target.value)} />
-        </div> */}
+        </div>
 
         <div className="button-box">
           <button type='submit'>Create Spot</button>

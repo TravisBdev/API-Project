@@ -7,6 +7,7 @@ export const CREATE_SPOT = 'spots/createSpot'
 export const DELETE_SPOT = 'spots/deleteSpot'
 export const SPOT_DETAILS = 'spots/details'
 export const USER_SPOTS = 'spots/userSpots'
+export const CREATE_IMAGE = 'spots/createImage'
 // export const CREATE_AN_IMAGE = 'spots/createAnImage'
 
 
@@ -36,6 +37,11 @@ export const setUserSpots = (spots) => ({
   spots
 })
 
+export const createImage = (image) => ({
+  type: CREATE_IMAGE,
+  image
+})
+
 export const deleteSpot = (spotId) => ({
   type: DELETE_SPOT,
   spotId
@@ -43,10 +49,7 @@ export const deleteSpot = (spotId) => ({
 
 
 
-// export const createSpotImg = (image) => ({
-//   type: CREATE_AN_IMAGE,
-//   image
-// })
+
 
 //Thunks
 
@@ -118,6 +121,24 @@ export const createASpot = (spot) => async dispatch => {
   }
 }
 
+export const createAnImage = (spotId, image) => async dispatch => {
+  const res = await csrfFetch(`/api/spots/${spotId}/images`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(image)
+  })
+
+  if (res.ok) {
+    const createdImg = res.json()
+    dispatch(createImage(createdImg))
+  } else {
+    const err = res.json
+    return err
+  }
+}
+
 export const getUserSpots = () => async dispatch => {
   try {
     const res = await csrfFetch('/api/spots/current')
@@ -163,6 +184,9 @@ const spotsReducer = (state = {}, action) => {
     case CREATE_SPOT:
       return { ...state, [action.spot.id]: action.spot }
 
+    case CREATE_IMAGE:
+      return { ...state, [action.image.id]: action.image }
+
     case SPOT_DETAILS:
       return { ...state, [action.spot.id]: action.spot }
 
@@ -179,23 +203,6 @@ const spotsReducer = (state = {}, action) => {
   }
 
 
-  // const createAnImage = (spotId, image) => async dispatch => {
-  //   const res = await csrfFetch(`/api/spots/${spotId}/images`, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(image)
-  //   })
-
-  //   if(res.ok){
-  //     const createdImg = res.json()
-  //     dispatch(createSpotImg(createdImg))
-  //   }else {
-  //     const err = res.json
-  //     return err
-  //   }
-  // }
 }
 
 export default spotsReducer
