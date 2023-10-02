@@ -131,11 +131,11 @@ export const createAnImage = (spotId, image) => async dispatch => {
   })
 
   if (res.ok) {
-    const createdImg = res.json()
+    const createdImg = await res.json()
     dispatch(createImage(createdImg))
   } else {
-    const err = res.json
-    return err
+    const err = await res.json()
+    console.error(err)
   }
 }
 
