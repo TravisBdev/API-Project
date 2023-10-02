@@ -1,12 +1,9 @@
 const express = require('express');
-const moment = require('moment');
 const { Op } = require('sequelize');
-const { check, query, validationResult } = require('express-validator');
+const { check, query } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth')
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
 const { Spot, SpotImage, Review, User, ReviewImage, Booking } = require('../../db/models');
-const sequelize = require('sequelize');
 
 const router = express.Router();
 
@@ -168,8 +165,6 @@ const spotValidation = [
   check('city').exists({ checkFalsy: true }).withMessage('City is required'),
   check('state').exists({ checkFalsy: true }).withMessage('State is required'),
   check('country').exists({ checkFalsy: true }).withMessage('Country is required'),
-  check('lat').exists({ checkFalsy: true }).isFloat().withMessage('Latitude is not valid'),
-  check('lng').exists({ checkFalsy: true }).isFloat().withMessage('Longitude is not valid'),
   check('name').exists({ checkFalsy: true }).isLength({ min: 2, max: 49 }).withMessage('Name must be less than 50 characters'),
   check('description').exists({ checkFalsy: true }).withMessage('Description is required'),
   check('price').exists({ checkFalsy: true }).withMessage('Price per day is required'),
@@ -180,15 +175,13 @@ const spotValidation = [
 
 //CREATE A SPOT
 router.post('/', requireAuth, spotValidation, async (req, res) => {
-  const { address, city, state, country, lat, lng, name, description, price, ownerId } = req.body
+  const { address, city, state, country, name, description, price } = req.body
   const makeSpot = await Spot.create({
     ownerId: req.user.id,
     address,
     city,
     state,
     country,
-    lat,
-    lng,
     name,
     description,
     price
@@ -196,8 +189,7 @@ router.post('/', requireAuth, spotValidation, async (req, res) => {
   if (!makeSpot) {
     return res.status(400).json()
   }
-  res.status(201)
-    .json(makeSpot)
+  res.status(201).json(makeSpot)
 })
 
 //GET BOOKINGS BY SPOT ID
@@ -411,9 +403,16 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res) =>
     review,
     stars
   });
-  console.log(newReview.id)
 
-  res.status(201).json(newReview)
+  const reviewWithUser = await Review.findByPk(newReview.id, {
+    include: [{
+      model: User,
+      attributes: ['id', 'firstName']
+    }]
+  });
+
+
+  res.status(201).json(reviewWithUser)
 
 })
 
@@ -459,7 +458,7 @@ router.get('/:spotId', async (req, res) => {
 //EDIT SPOT BY ID
 router.put('/:spotId', requireAuth, spotValidation, async (req, res) => {
   const changeSpot = await Spot.findByPk(req.params.spotId)
-  const { address, city, state, country, lat, lng, name, description, price } = req.body
+  const { address, city, state, country, name, description, price } = req.body
 
   if (!changeSpot) {
     res.status(404)
@@ -479,8 +478,6 @@ router.put('/:spotId', requireAuth, spotValidation, async (req, res) => {
   changeSpot.city = city;
   changeSpot.state = state;
   changeSpot.country = country;
-  changeSpot.lat = lat;
-  changeSpot.lng = lng;
   changeSpot.name = name;
   changeSpot.description = description;
   changeSpot.price = price;
