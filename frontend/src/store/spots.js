@@ -152,17 +152,13 @@ export const getUserSpots = () => async dispatch => {
 }
 
 export const deleteASpot = (spotId) => async dispatch => {
-  try {
-    const res = await csrfFetch(`/api/spots/${spotId}`, {
-      method: 'DELETE'
-    })
+  const res = await csrfFetch(`/api/spots/${spotId}`, {
+    method: 'DELETE'
+  })
 
-    if (res.ok) {
-      dispatch(deleteSpot(spotId))
-      return spotId
-    }
-  } catch (error) {
-    console.error(error.message)
+  if (res.ok) {
+    dispatch(deleteSpot(spotId))
+    return spotId
   }
 }
 
