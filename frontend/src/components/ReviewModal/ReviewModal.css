@@ -1,7 +1,7 @@
 .stars .filled {
-  color: yellow;
+  color: gold;
 }
 
 .stars .empty {
-  color: green;
+  color: lightgray;
 }
