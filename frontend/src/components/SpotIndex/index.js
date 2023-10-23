@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import SpotTile from "../SpotTile";
 import { getAllSpots } from "../../store/spots";
 
+import './SpotIndex.css'
+
 const SpotIndex = () => {
   const dispatch = useDispatch()
   const spots = useSelector(state => Object.values(state.spots))
