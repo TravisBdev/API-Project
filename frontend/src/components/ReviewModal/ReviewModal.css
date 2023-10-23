@@ -1,0 +1,7 @@
+.stars .filled {
+  color: yellow;
+}
+
+.stars .empty {
+  color: green;
+}

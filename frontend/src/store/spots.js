@@ -94,12 +94,13 @@ export const getSpotDetails = (spotId) => async dispatch => {
     const spotData = await res.json()
     dispatch(spotDetails(spotData))
   } else {
-    const err = await res.json()
-    return err
+    const errors = await res.json()
+    return errors
   }
 }
 
 export const createASpot = (spot) => async dispatch => {
+
   try {
     const res = await csrfFetch(`/api/spots`, {
       method: 'POST',
@@ -109,33 +110,31 @@ export const createASpot = (spot) => async dispatch => {
       body: JSON.stringify(spot)
     })
 
-    const createdSpot = await res.json()
     if (res.ok) {
+      const createdSpot = await res.json()
       dispatch(createSpot(createdSpot))
       return createdSpot
-    } else {
-      return { errors: createdSpot.errors }
     }
-  } catch (error) {
-    console.error(error.message);
+  } catch (errors) {
+    return errors
   }
 }
 
-export const createAnImage = (spotId, image) => async dispatch => {
+export const createSpotImage = (spotId, url, preview) => async dispatch => {
   const res = await csrfFetch(`/api/spots/${spotId}/images`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(image)
+    body: JSON.stringify({ url, preview })
   })
 
   if (res.ok) {
     const createdImg = await res.json()
     dispatch(createImage(createdImg))
   } else {
-    const err = await res.json()
-    console.error(err)
+    const errors = await res.json()
+    return errors
   }
 }
 
@@ -183,9 +182,6 @@ const spotsReducer = (state = {}, action) => {
 
     case CREATE_SPOT:
       return { ...state, [action.spot.id]: action.spot }
-
-    case CREATE_IMAGE:
-      return { ...state, [action.image.id]: action.image }
 
     case SPOT_DETAILS:
       return { ...state, [action.spot.id]: action.spot }
