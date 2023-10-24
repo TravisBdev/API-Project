@@ -187,6 +187,7 @@ const spotsReducer = (state = {}, action) => {
 
     case DELETE_SPOT:
       const newState = { ...state }
+      newState.userSpots = newState.userSpots.filter(spot => spot.id !== action.spotId)
       delete newState[action.spotId]
       return newState
 

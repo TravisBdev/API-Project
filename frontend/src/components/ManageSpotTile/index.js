@@ -1,14 +1,10 @@
-import { useDispatch } from 'react-redux';
+
 import { Link } from 'react-router-dom';
+import OpenModalButton from '../OpenModalButton'
+import DeleteSpotModal from '../DeleteSpotModal';
 import './ManageSpotTile.css'
-import { deleteASpot } from '../../store/spots';
 
 const ManageSpotTile = ({ spot }) => {
-  const dispatch = useDispatch()
-  // console.log(spot.id);
-  const handleDelete = () => {
-    dispatch(deleteASpot(spot.id))
-  }
 
   return (
     <div className="spot-tile">
@@ -27,7 +23,7 @@ const ManageSpotTile = ({ spot }) => {
       </div>
       <div className="btn-box">
         <Link to={`/spots/${spot.id}/edit`}><button className="btn">Update</button></Link>
-        <button className="btn" onClick={handleDelete}>Delete</button>
+        <OpenModalButton buttonText='Delete' modalComponent={<DeleteSpotModal spotId={spot.id} />} />
       </div>
     </div>
   );

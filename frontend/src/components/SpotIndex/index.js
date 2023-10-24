@@ -9,6 +9,7 @@ import './SpotIndex.css'
 const SpotIndex = () => {
   const dispatch = useDispatch()
   const spots = useSelector(state => Object.values(state.spots))
+  console.log(spots);
 
   useEffect(() => {
     dispatch(getAllSpots())

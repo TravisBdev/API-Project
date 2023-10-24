@@ -37,8 +37,8 @@ const ReviewModal = ({ spotId }) => {
         dispatch(getSpotDetails(spotId))
         closeModal()
       }
-    } catch (error) {
-      return error.message
+    } catch (errors) {
+      return errors
     }
   }
 
