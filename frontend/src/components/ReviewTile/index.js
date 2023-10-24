@@ -10,6 +10,7 @@ const ReviewTile = ({ review }) => {
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
   const month = months[date.getMonth()]
   const year = date.getFullYear()
+  const checkUser = sessionUser.id === review.userId
   return (
     <div className="review-tile">
       <div>
@@ -17,7 +18,7 @@ const ReviewTile = ({ review }) => {
         <p>{month} {year}</p>
         <p>{review.review}</p>
       </div>
-      {sessionUser && <OpenModalButton buttonText='Delete' modalComponent={<DeleteReviewModal reviewId={review.id} />} />}
+      {checkUser && <OpenModalButton buttonText='Delete' modalComponent={<DeleteReviewModal reviewId={review.id} />} />}
     </div>
   )
 }
