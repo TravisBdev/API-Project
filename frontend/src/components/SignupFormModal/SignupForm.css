@@ -1,3 +1,26 @@
 .errors {
   color: red;
 }
+
+#modal-content {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+.signup-form>input {
+  margin: .5rem;
+  width: 100%;
+}
+
+.signup-btn {
+  width: 100%;
+}
