@@ -12,16 +12,39 @@ const ReviewTile = ({ review }) => {
   const year = date.getFullYear()
   const checkUser = sessionUser.id === review.userId
   return (
-    <div className="review-tile">
+    <>
+      {checkUser ? (
+        <div className="review-tile">
+          <div>
+            <h3>{review.User?.firstName}</h3>
+            <p>{month} {year}</p>
+            <p>{review.review}</p>
+          </div>
+          {checkUser && <OpenModalButton buttonText='Delete' modalComponent={<DeleteReviewModal reviewId={review.id} />} />}
+        </div>
+      ) : (
+        <div className="review-tile">
+          <div>
+            <h3>{review.User?.firstName}</h3>
+            <p>{month} {year}</p>
+            <p>{review.review}</p>
+          </div>
+          {/* {checkUser && <OpenModalButton buttonText='Delete' modalComponent={<DeleteReviewModal reviewId={review.id} />} />} */}
+        </div>
+      )}
+    </>
+  )
+}
+
+
+export default ReviewTile
+
+
+{/* <div className="review-tile">
       <div>
         <h3>{review.User?.firstName}</h3>
         <p>{month} {year}</p>
         <p>{review.review}</p>
       </div>
       {checkUser && <OpenModalButton buttonText='Delete' modalComponent={<DeleteReviewModal reviewId={review.id} />} />}
-    </div>
-  )
-}
-
-
-export default ReviewTile
+    </div> */}

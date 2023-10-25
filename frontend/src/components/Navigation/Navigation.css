@@ -26,15 +26,12 @@
   align-items: center;
   border-bottom: 1px solid black;
   margin-bottom: 2rem;
-  /* position: relative; */
 }
 
 .user-box {
   display: flex;
   align-items: center;
-  /* position: absolute; */
   right: .5rem;
-
 }
 
 .profile-box {

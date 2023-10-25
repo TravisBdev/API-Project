@@ -5,8 +5,12 @@ const SpotTile = ({ spot }) => {
   return (
     <Link to={`/spots/${spot.id}`} className='link'>
       <div className="spot-tile">
+
         <div className="tooltip">{spot.name}</div>
-        <img src={spot.previewImage} alt='' className="preview-img" />
+
+        <div className="prev-img-box">
+          <img src={spot.previewImage} alt='' className="preview-img" />
+        </div>
         <div className="spot-details">
           <div className="location">
             {spot.city}, {spot.state}
