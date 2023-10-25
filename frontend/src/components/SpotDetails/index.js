@@ -17,7 +17,10 @@ const SpotDetails = () => {
   const dispatch = useDispatch()
   const { spotId } = useParams()
 
-  const details = useSelector(state => state.spots[spotId])
+  const spot = useSelector(state => state.spots[spotId])
+  const isNotOwner = sessionUser?.id !== spot.Owner?.id
+  // const isOwner = sessionUser?.id === spot.Owner?.id
+  const user = sessionUser?.id
 
   const showImgs = (imgs) => {
     return imgs.map(img => {
@@ -33,7 +36,7 @@ const SpotDetails = () => {
     dispatch(getSpotDetails(spotId))
   }, [dispatch, spotId])
 
-  if (!details) {
+  if (!spot) {
     return null
   }
 
@@ -45,8 +48,8 @@ const SpotDetails = () => {
     alert('Feature Coming Soon...')
   }
 
-  const { name, city, state, country, description, price, numReviews, avgRating, Owner, SpotImages } = details
-
+  const { name, city, state, country, description, price, numReviews, avgRating, Owner, SpotImages } = spot
+  const reviewCount = numReviews < 1
 
 
   return (
@@ -65,7 +68,7 @@ const SpotDetails = () => {
           <div className="reserve-deets">
             <h3 className="price">{price} night</h3>
             <div className="rating-reviews">
-              {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating.toFixed(1)} • {numReviews} {numReviews === 1 ? 'review' : 'reviews'}</> : 'New'}
+              {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating.toFixed(1)} • {numReviews} {numReviews === 1 ? 'review' : 'reviews'}</> : <><i className="fa-solid fa-star fa-xs"></i>New</>}
             </div>
             <div className="reserve-btn">
               <button onClick={handleClick}>Reserve</button>
@@ -77,8 +80,9 @@ const SpotDetails = () => {
       <div className="reviews-box">
 
         <div className="reviews-heading">
-          {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating.toFixed(1)} • {numReviews} {numReviews === 1 ? 'review' : 'reviews'}</> : 'New'}
-          {sessionUser && <button onClick={postReview}>Post Your Review</button>}
+          {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating.toFixed(1)} • {numReviews} {numReviews === 1 ? 'review' : 'reviews'}</> : <><i className="fa-solid fa-star fa-xs"></i>New</>}
+          {sessionUser && user && isNotOwner && <button onClick={postReview}>Post Your Review</button>}
+          {reviewCount && user && isNotOwner && <p>Be the first to post a review!</p>}
         </div>
 
         <div className="review-list">

@@ -81,10 +81,10 @@ const ReviewModal = ({ spotId }) => {
             onMouseLeave={() => { if (!disabled) setActiveRating(stars) }}
             onClick={() => { if (!disabled) onChange(5) }}>
             <i className="fa fa-star"></i></div>
-
+          <label>Stars</label>
         </div>
         {errors.review && <p>{errors.review}</p>}
-        <button type="submit">Submit Review</button>
+        <button disabled={review.length < 10} type="submit">Submit Review</button>
       </form>
     </div>
   )

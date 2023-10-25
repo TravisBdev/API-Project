@@ -38,6 +38,8 @@
 .link {
   text-decoration: none;
   color: black;
+  /* display: grid;
+  justify-items: center; */
 }
 
 .prev-img-box {

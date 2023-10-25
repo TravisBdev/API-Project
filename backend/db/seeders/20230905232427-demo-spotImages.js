@@ -13,102 +13,302 @@ module.exports = {
     await SpotImage.bulkCreate([
       {
         spotId: 1,
-        url: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/383403441.jpg?k=0d70432ce7823f8c3db9ab7f5f71776f2c2d1ea51894802ef3932f147d0cdcfe&o=&hp=1',
+        url: 'https://cdn.pixabay.com/photo/2018/08/24/19/14/castle-3628643_1280.jpg',
         preview: true
       },
       {
         spotId: 1,
-        url: 'https://images.rezfusion.com/evrn/PINNAC/186135/1988780924.jpg?optimize=true&rotate=true&quality=70&width=1600',
+        url: 'https://cdn.pixabay.com/photo/2017/11/10/03/48/fantasy-2935246_1280.jpg',
         preview: true
       },
       {
         spotId: 1,
-        url: 'https://www.christiesrealestate.com/blog/wp-content/uploads/2021/12/river-house-estate-telkwa-british-columbia-1.jpg',
+        url: 'https://cdn.pixabay.com/photo/2017/11/10/03/48/fantasy-2935246_1280.jpg',
         preview: true
       },
       {
         spotId: 1,
-        url: 'https://www.wideopencountry.com/wp-content/uploads/sites/4/2017/07/cabin1-4-e1501545347988.jpg?fit=798%2C546',
+        url: 'https://cdn.pixabay.com/photo/2020/02/16/16/31/mystical-4854108_1280.jpg',
         preview: true
       },
       {
         spotId: 1,
-        url: 'https://cariboucreek.com/wp-content/uploads/2021/06/06-1001-25_PaintedRoseReshoot-12-1024x679.jpg',
+        url: 'https://cdn.pixabay.com/photo/2018/02/13/23/41/nature-3151869_1280.jpg',
         preview: true
       },
       {
         spotId: 2,
-        url: 'https://a0.muscache.com/im/pictures/miso/Hosting-559300795536382220/original/bcf9680c-1812-4f29-83ee-0ba8e22afb2c.jpeg',
+        url: 'https://cdn.pixabay.com/photo/2017/11/07/00/07/fantasy-2925250_1280.jpg',
         preview: true
       },
       {
         spotId: 2,
-        url: 'https://www.surforsound.com/media/3340016/surf-or-sound-realty-salty-dog-beach-house-869-exterior.jpg',
+        url: 'https://cdn.pixabay.com/photo/2017/10/13/14/15/fantasy-2847724_1280.jpg',
         preview: true
       },
       {
         spotId: 2,
-        url: 'https://st.hzcdn.com/simgs/pictures/exteriors/coastal-modern-lindye-galloway-interiors-img~81a13ab90a1491bc_14-9834-1-1ab483e.jpg',
+        url: 'https://cdn.pixabay.com/photo/2015/04/23/21/59/hot-air-balloon-736879_1280.jpg',
         preview: true
       },
       {
         spotId: 2,
-        url: 'https://st.hzcdn.com/simgs/pictures/exteriors/coastal-living-magazine-showhouse-flagg-coastal-homes-img~92016b0c03bc6203_14-1565-1-5c6b0ec.jpg',
+        url: 'https://cdn.pixabay.com/photo/2018/05/12/17/41/forest-3394066_1280.jpg',
         preview: true
       },
       {
         spotId: 2,
-        url: 'https://0b20c523c2fb4534974b-bba8e2887a970ab975191df49b6d9e46.ssl.cf5.rackcdn.com/gallery/134/884929-IMG_1093.jpg',
+        url: 'https://cdn.pixabay.com/photo/2019/05/24/17/41/castle-4226797_1280.jpg',
         preview: true
       },
       {
         spotId: 3,
-        url: 'https://bostonpads.com/wp-content/uploads/2017/11/boston-luxury-apartment-waterfront.jpg',
+        url: 'https://cdn.pixabay.com/photo/2020/06/19/23/48/wormhole-5319178_1280.jpg',
         preview: true
       },
       {
         spotId: 3,
-        url: 'https://st.hzcdn.com/simgs/pictures/living-rooms/luxury-apartment-design-by-massimiliano-raggi-with-products-by-oasis-group-oasis-img~843177c6054207d5_14-7265-1-eb8b570.jpg',
+        url: 'https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569_1280.jpg',
         preview: true
       },
       {
         spotId: 3,
-        url: 'https://www.thewoodlands.com/wp-content/uploads/2022/01/The-Grove-at-Creekside-Park-2843.jpg',
+        url: 'https://cdn.pixabay.com/photo/2011/12/14/12/21/orion-nebula-11107_1280.jpg',
         preview: true
       },
       {
         spotId: 3,
-        url: 'https://resource.rentcafe.com/image/upload/q_auto,f_auto,c_lfill,w_361,h_400,g_auto/s3/2/143212/aurora-9896-web%20(2).jpg',
+        url: 'https://cdn.pixabay.com/photo/2018/03/29/19/34/northern-lights-3273425_1280.jpg',
         preview: true
       },
       {
         spotId: 3,
-        url: 'https://photos.zillowstatic.com/fp/da632dbbb1d5c317359c003dede8ef50-p_e.jpg',
+        url: 'https://cdn.pixabay.com/photo/2021/05/22/22/35/black-hole-6274731_1280.jpg',
         preview: true
       },
       {
         spotId: 4,
+        url: 'https://cdn.pixabay.com/photo/2018/11/07/13/28/mushroom-3800390_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 4,
+        url: 'https://cdn.pixabay.com/photo/2016/08/11/23/48/mountains-1587287_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 4,
+        url: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 4,
+        url: 'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 4,
+        url: 'https://cdn.pixabay.com/photo/2018/08/21/23/29/forest-3622519_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 5,
+        url: 'https://cdn.pixabay.com/photo/2017/02/08/17/24/fantasy-2049567_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 5,
+        url: 'https://cdn.pixabay.com/photo/2015/05/24/16/47/fantasy-782001_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 5,
+        url: 'https://cdn.pixabay.com/photo/2018/04/10/23/46/architecture-3309203_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 5,
+        url: 'https://cdn.pixabay.com/photo/2020/08/23/14/55/castle-5511046_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 5,
+        url: 'https://cdn.pixabay.com/photo/2018/10/05/22/36/metal-3726995_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 6,
+        url: 'https://cdn.pixabay.com/photo/2020/06/22/10/40/hohenzollern-5328719_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 6,
+        url: 'https://cdn.pixabay.com/photo/2020/11/15/09/21/castle-5745011_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 6,
+        url: 'https://cdn.pixabay.com/photo/2021/12/28/11/37/castle-6899042_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 6,
+        url: 'https://cdn.pixabay.com/photo/2018/10/13/08/39/hohenschwangau-3743780_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 6,
+        url: 'https://cdn.pixabay.com/photo/2022/01/03/01/00/ruins-6911495_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 7,
+        url: 'https://cdn.pixabay.com/photo/2020/09/04/18/15/pond-5544602_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 7,
+        url: 'https://cdn.pixabay.com/photo/2014/06/03/18/23/summer-361419_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 7,
+        url: 'https://cdn.pixabay.com/photo/2015/01/28/23/35/hills-615429_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 7,
+        url: 'https://cdn.pixabay.com/photo/2020/04/28/02/23/river-5102361_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 7,
+        url: 'https://cdn.pixabay.com/photo/2021/08/13/14/16/outdoors-6543215_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 8,
+        url: 'https://cdn.pixabay.com/photo/2022/12/29/18/11/house-7685542_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 8,
+        url: 'https://cdn.pixabay.com/photo/2023/01/03/17/04/haunted-7694841_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 8,
+        url: 'https://cdn.pixabay.com/photo/2021/10/29/13/39/fantasy-6751966_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 8,
+        url: 'https://cdn.pixabay.com/photo/2018/03/18/15/26/villa-3237114_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 8,
+        url: 'https://cdn.pixabay.com/photo/2017/02/25/09/51/full-moon-2097326_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 9,
+        url: 'https://cdn.pixabay.com/photo/2021/04/08/07/43/castle-6160929_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 9,
+        url: 'https://cdn.pixabay.com/photo/2023/06/15/19/42/castle-8066410_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 9,
+        url: 'https://cdn.pixabay.com/photo/2022/12/10/04/35/stairs-7646580_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 9,
+        url: 'https://cdn.pixabay.com/photo/2020/04/11/18/51/composing-5031598_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 9,
+        url: 'https://cdn.pixabay.com/photo/2015/04/22/17/34/middle-ages-735063_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 10,
+        url: 'https://cdn.pixabay.com/photo/2018/05/04/07/55/snow-3373432_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 10,
+        url: 'https://cdn.pixabay.com/photo/2017/01/09/00/49/snow-1964361_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 10,
+        url: 'https://cdn.pixabay.com/photo/2016/12/06/14/33/log-cabin-1886620_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 10,
+        url: 'https://cdn.pixabay.com/photo/2018/05/04/15/27/cabin-3374201_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 10,
+        url: 'https://cdn.pixabay.com/photo/2017/01/30/15/35/autumn-2021154_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 11,
         url: 'https://cdn.pixabay.com/photo/2017/09/15/02/22/fantasy-2750995_1280.jpg',
         preview: true
       },
       {
-        spotId: 4,
-        url: 'https://cdn.pixabay.com/photo/2015/05/14/22/03/falkensteiner-cave-767556_1280.jpg',
+        spotId: 11,
+        url: 'https://cdn.pixabay.com/photo/2018/11/08/11/34/milky-way-3802391_1280.jpg',
         preview: true
       },
       {
-        spotId: 4,
-        url: 'https://cdn.pixabay.com/photo/2023/03/01/08/47/cave-7822559_1280.jpg',
+        spotId: 11,
+        url: 'https://cdn.pixabay.com/photo/2016/11/18/17/02/cave-1835825_1280.jpg',
         preview: true
       },
       {
-        spotId: 4,
-        url: 'https://cdn.pixabay.com/photo/2023/08/21/06/43/cave-8203748_1280.png',
+        spotId: 11,
+        url: 'https://cdn.pixabay.com/photo/2017/08/07/23/11/iceland-2608985_1280.jpg',
         preview: true
       },
       {
-        spotId: 4,
-        url: 'https://cdn.pixabay.com/photo/2023/08/03/05/50/canyon-8166367_1280.png',
+        spotId: 11,
+        url: 'https://cdn.pixabay.com/photo/2017/08/07/14/57/cave-2604672_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 12,
+        url: 'https://cdn.pixabay.com/photo/2019/03/02/19/50/log-cabin-4030556_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 12,
+        url: 'https://cdn.pixabay.com/photo/2017/08/17/09/35/log-cabin-2650560_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 12,
+        url: 'https://cdn.pixabay.com/photo/2020/05/28/08/24/chicken-coop-5230394_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 12,
+        url: 'https://cdn.pixabay.com/photo/2020/05/06/03/46/hill-5136002_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 12,
+        url: 'https://cdn.pixabay.com/photo/2013/07/04/18/33/western-143213_1280.jpg',
         preview: true
       },
 
