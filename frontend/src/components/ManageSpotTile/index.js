@@ -1,9 +1,8 @@
 
-import { Link } from 'react-router-dom';
 import OpenModalButton from '../OpenModalButton'
 import DeleteSpotModal from '../DeleteSpotModal';
 import './ManageSpotTile.css'
-import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
+import { NavLink, Link } from 'react-router-dom';
 
 const ManageSpotTile = ({ spot }) => {
 

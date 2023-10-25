@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import { getSpotDetails } from "../../store/spots";
+// import { getAllReviews } from "../../store/reviews";
 
 import ReviewList from "../ReviewList";
 import ReviewModal from "../ReviewModal";
@@ -11,15 +12,13 @@ import ReviewModal from "../ReviewModal";
 import './SpotDetails.css'
 
 const SpotDetails = () => {
+  const { spotId } = useParams()
   const sessionUser = useSelector(state => state.session.user);
   const { setModalContent } = useModal()
-
   const dispatch = useDispatch()
-  const { spotId } = useParams()
-
   const spot = useSelector(state => state.spots[spotId])
+
   const isNotOwner = sessionUser?.id !== spot.Owner?.id
-  // const isOwner = sessionUser?.id === spot.Owner?.id
   const user = sessionUser?.id
 
   const showImgs = (imgs) => {
@@ -30,6 +29,14 @@ const SpotDetails = () => {
       return null
     })
   }
+
+
+  //added this to check against
+  // const reviews = useSelector(state => Object.values(state.reviews))
+  //Added this to load the reviews to check against
+  // useEffect(() => {
+  //   dispatch(getAllReviews(spotId))
+  // }, [dispatch])
 
 
   useEffect(() => {
