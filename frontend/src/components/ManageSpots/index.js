@@ -3,10 +3,12 @@ import { useEffect } from "react";
 
 import ManageSpotTile from "../ManageSpotTile";
 import { getUserSpots } from "../../store/spots";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const ManageSpots = () => {
   const dispatch = useDispatch()
   const spots = useSelector(state => state.spots.userSpots)
+  // console.log(spots);
 
   useEffect(() => {
     dispatch(getUserSpots())
@@ -16,7 +18,7 @@ const ManageSpots = () => {
     <div>
       <div>
         <h1>Manage Spots</h1>
-        <button>Create a New Spot</button>
+        <button><Link to={'/spots'}>Create a New Spot</Link></button>
       </div>
       {spots?.map(spot => <ManageSpotTile key={spot.id} spot={spot} />)}
     </div>

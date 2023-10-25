@@ -1,0 +1,7 @@
+.stars .filled {
+  color: gold;
+}
+
+.stars .empty {
+  color: lightgray;
+}

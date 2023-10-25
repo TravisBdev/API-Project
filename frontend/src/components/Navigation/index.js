@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../../assets/logo.png'
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
@@ -8,19 +9,26 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">Home</NavLink>
-      </li>
-      {sessionUser && (
-        <NavLink to='/spots'>Create a new spot</NavLink>
-      )}
-      {isLoaded && (
-        <li>
-          <ProfileButton user={sessionUser} />
-        </li>
-      )}
-    </ul>
+    <div className='nav-bar'>
+      <div className='logo-box'>
+        <NavLink className='home-link' exact to="/"><img id='logo' src={logo} alt="tree" /></NavLink>
+        <NavLink className='home-link' exact to="/">FNTCBNB</NavLink>
+      </div>
+
+
+      <div className='user-box'>
+        <div className='new-spot-box'>
+          {sessionUser && (
+            <NavLink id='create-spot-link' to='/spots'>Create a new spot</NavLink>
+          )}
+        </div>
+        <div className="profile-box">
+          {isLoaded && (
+            <ProfileButton user={sessionUser} />
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 

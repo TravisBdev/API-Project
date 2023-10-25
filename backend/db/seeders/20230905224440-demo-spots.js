@@ -47,6 +47,18 @@ module.exports = {
         description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt aliquid obcaecati eos debitis commodi accusantium provident quam nesciunt nobis odit modi alias impedit unde temporibus, iure et? Similique, fuga nostrum. Animi voluptates facilis architecto accusamus soluta impedit consectetur dolorum. Fugiat explicabo dolore quaerat itaque iusto ex nobis expedita esse harum commodi? Voluptatem doloremque ut eum cum eaque, iure rerum fugit.',
         price: 111,
       },
+      {
+        ownerId: 3,
+        address: 'The Cave',
+        city: 'Caveville',
+        state: 'Oregon',
+        country: 'MiddleEarth',
+        lat: 49.7645542,
+        lng: -237.7645542,
+        name: 'The One',
+        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt aliquid obcaecati eos debitis commodi accusantium provident quam nesciunt nobis odit modi alias impedit unde temporibus, iure et? Similique, fuga nostrum. Animi voluptates facilis architecto accusamus soluta impedit consectetur dolorum. Fugiat explicabo dolore quaerat itaque iusto ex nobis expedita esse harum commodi? Voluptatem doloremque ut eum cum eaque, iure rerum fugit.',
+        price: 211,
+      },
     ], { validate: true });
   },
 

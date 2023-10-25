@@ -86,6 +86,31 @@ module.exports = {
         url: 'https://photos.zillowstatic.com/fp/da632dbbb1d5c317359c003dede8ef50-p_e.jpg',
         preview: true
       },
+      {
+        spotId: 4,
+        url: 'https://cdn.pixabay.com/photo/2017/09/15/02/22/fantasy-2750995_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 4,
+        url: 'https://cdn.pixabay.com/photo/2015/05/14/22/03/falkensteiner-cave-767556_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 4,
+        url: 'https://cdn.pixabay.com/photo/2023/03/01/08/47/cave-7822559_1280.jpg',
+        preview: true
+      },
+      {
+        spotId: 4,
+        url: 'https://cdn.pixabay.com/photo/2023/08/21/06/43/cave-8203748_1280.png',
+        preview: true
+      },
+      {
+        spotId: 4,
+        url: 'https://cdn.pixabay.com/photo/2023/08/03/05/50/canyon-8166367_1280.png',
+        preview: true
+      },
 
     ], { validate: true });
   },
