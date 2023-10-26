@@ -18,7 +18,7 @@ const SpotDetails = () => {
   const dispatch = useDispatch()
   const spot = useSelector(state => state.spots[spotId])
 
-  const isNotOwner = sessionUser?.id !== spot.Owner?.id
+  const isNotOwner = sessionUser?.id !== spot?.Owner?.id
   const user = sessionUser?.id
 
   const showImgs = (imgs) => {
