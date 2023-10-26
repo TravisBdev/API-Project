@@ -21,16 +21,6 @@ const SpotDetails = () => {
   const isNotOwner = sessionUser?.id !== spot?.Owner?.id
   const user = sessionUser?.id
 
-  const showImgs = (imgs) => {
-    return imgs.map(img => {
-      if (img.url) {
-        return <img className='spot-img' src={img.url} alt={img.url} key={img.id} />
-      }
-      return null
-    })
-  }
-
-
   //added this to check against
   // const reviews = useSelector(state => Object.values(state.reviews))
   //Added this to load the reviews to check against
@@ -60,26 +50,45 @@ const SpotDetails = () => {
 
 
   return (
-    <div className="spot-deets">
-      <h1>{name}</h1>
-      <div className="location-deets">
-        {city}, {state}, {country}
+    <div className="details-page">
+
+      <div className="spot-deets">
+        <div className="spot-name"><h1>{name}</h1></div>
+        <div className="location-deets">
+          {city}, {state}, {country}
+        </div>
+
+        <div className="all-imgs">
+          <div className="hero-img-box">
+            {SpotImages && <img src={SpotImages.find(img => img.preview === true).url} alt="" id="hero-img" />}
+          </div>
+
+          <div className="other-imgs-box">
+            {SpotImages && SpotImages.filter(img => img.preview !== true).map(img => (
+              <div className="other-img-wrapper"><img src={img.url} className="other-imgs" alt="" /></div>
+            ))}
+          </div>
+        </div>
       </div>
-      <div className="img-container">
-        {SpotImages && showImgs(SpotImages)}
-      </div>
-      <div className="host-deets">
-        <h2>Hosted by {Owner?.firstName} {Owner?.lastName}</h2>
-        <p>{description}</p>
+
+      <div className="middle-box">
+        <div className="host-description">
+          <h2>Hosted by {Owner?.firstName} {Owner?.lastName}</h2>
+          <p>{description}</p>
+        </div>
+
         <div className="reserve-box">
           <div className="reserve-deets">
-            <h3 className="price">{price} night</h3>
+
+            <div className="price"><h2 className="price">${price} night</h2></div>
+
             <div className="rating-reviews">
-              {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating.toFixed(1)} • {numReviews} {numReviews === 1 ? 'review' : 'reviews'}</> : <><i className="fa-solid fa-star fa-xs"></i>New</>}
+              {avgRating ? <h3><i className="fa-solid fa-star fa-xs"></i> {avgRating.toFixed(1)} • {numReviews} {numReviews === 1 ? 'review' : 'reviews'}</h3> : <h3><i className="fa-solid fa-star fa-xs"></i>New</h3>}
             </div>
-            <div className="reserve-btn">
-              <button onClick={handleClick}>Reserve</button>
-            </div>
+
+          </div>
+          <div className="reserve-btn-box">
+            <button onClick={handleClick} className="reserve-btn">Reserve</button>
           </div>
         </div>
       </div>
@@ -87,7 +96,7 @@ const SpotDetails = () => {
       <div className="reviews-box">
 
         <div className="reviews-heading">
-          {avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {avgRating.toFixed(1)} • {numReviews} {numReviews === 1 ? 'review' : 'reviews'}</> : <><i className="fa-solid fa-star fa-xs"></i>New</>}
+          {avgRating ? <h3><i className="fa-solid fa-star fa-xs"></i> {avgRating.toFixed(1)} • {numReviews} {numReviews === 1 ? 'review' : 'reviews'}</h3> : <h3><i className="fa-solid fa-star fa-xs"></i>New</h3>}
           {sessionUser && user && isNotOwner && <button onClick={postReview}>Post Your Review</button>}
           {reviewCount && user && isNotOwner && <p>Be the first to post a review!</p>}
         </div>
@@ -102,3 +111,4 @@ const SpotDetails = () => {
 }
 
 export default SpotDetails
+// {SpotImages && showImgs(SpotImages)}
