@@ -26,7 +26,7 @@ const DeleteReviewModal = ({ reviewId }) => {
         <p>Are you sure you want to delete this review?</p>
       </div>
       <div className="btn-box">
-        <button onClick={handleDelete}>Yes (Delete Review)</button>
+        <button id="yes" onClick={handleDelete}>Yes (Delete Review)</button>
         <button onClick={cancelDelete}>No (Keep Review)</button>
       </div>
     </div>

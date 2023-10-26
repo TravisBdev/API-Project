@@ -97,7 +97,7 @@ const SpotDetails = () => {
 
         <div className="reviews-heading">
           {avgRating ? <h3><i className="fa-solid fa-star fa-xs"></i> {avgRating.toFixed(1)} • {numReviews} {numReviews === 1 ? 'review' : 'reviews'}</h3> : <h3><i className="fa-solid fa-star fa-xs"></i>New</h3>}
-          {sessionUser && user && isNotOwner && <button onClick={postReview}>Post Your Review</button>}
+          {sessionUser && user && isNotOwner && <button id="post-review" onClick={postReview}>Post Your Review</button>}
           {reviewCount && user && isNotOwner && <p>Be the first to post a review!</p>}
         </div>
 
