@@ -1,0 +1,17 @@
+.spots-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem
+}
+
+.create-btn {
+  margin-bottom: 1rem;
+  border: none;
+  background-color: grey;
+  padding: 10px
+}
+
+.btn-link {
+  text-decoration: none;
+  color: white;
+}

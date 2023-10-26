@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import ManageSpotTile from "../ManageSpotTile";
 import { getUserSpots } from "../../store/spots";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import './ManageSpots.css'
 
 const ManageSpots = () => {
   const dispatch = useDispatch()
@@ -18,9 +19,9 @@ const ManageSpots = () => {
     <div>
       <div>
         <h1>Manage Spots</h1>
-        <button><Link to={'/spots'}>Create a New Spot</Link></button>
+        <button className="create-btn"><Link className='btn-link' to={'/spots'}>Create a New Spot</Link></button>
       </div>
-      {spots?.map(spot => <ManageSpotTile key={spot.id} spot={spot} />)}
+      <div className="spots-list">{spots?.map(spot => <ManageSpotTile key={spot.id} spot={spot} />)}</div>
     </div>
   )
 }

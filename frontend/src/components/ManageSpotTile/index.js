@@ -1,31 +1,36 @@
 
-import { Link } from 'react-router-dom';
 import OpenModalButton from '../OpenModalButton'
 import DeleteSpotModal from '../DeleteSpotModal';
 import './ManageSpotTile.css'
+import { NavLink, Link } from 'react-router-dom';
 
 const ManageSpotTile = ({ spot }) => {
 
   return (
-    <div className="spot-tile">
-      <div className="tooltip">{spot.name}</div>
-      <div className="img-container">
-        <img src={spot.previewImage} alt='' className="preview-img" />
-        <div className="location">
-          {spot.city}, {spot.state}
+    <NavLink to={`/spots/${spot.id}`} className='link'>
+      <div className="spot-tile">
+
+        <div className="prev-img-box">
+          <img src={spot.previewImage} alt='' className="preview-img" />
         </div>
-        <div className="avg-rating">
-          {spot.avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {spot.avgRating.toFixed(1)}</> : 'New'}
+        <div className="spot-details">
+          <div className="location">
+            {spot.city}, {spot.state}
+          </div>
+          <div className="avg-rating">
+            {spot.avgRating ? <><i className="fa-solid fa-star fa-xs"></i> {spot.avgRating.toFixed(1)}</> : <><i className="fa-solid fa-star fa-xs"></i> New</>}
+          </div>
+
+          <div className="price">
+            ${spot.price} night
+          </div>
+          <div className="btn-box">
+            <Link to={`/spots/${spot.id}/edit`}><button className="update-btn">Update</button></Link>
+            <OpenModalButton buttonText='Delete' className='delete-btn' modalComponent={<DeleteSpotModal spotId={spot.id} />} />
+          </div>
         </div>
       </div>
-      <div className="price">
-        ${spot.price} night
-      </div>
-      <div className="btn-box">
-        <Link to={`/spots/${spot.id}/edit`}><button className="btn">Update</button></Link>
-        <OpenModalButton buttonText='Delete' modalComponent={<DeleteSpotModal spotId={spot.id} />} />
-      </div>
-    </div>
+    </NavLink>
   );
 };
 

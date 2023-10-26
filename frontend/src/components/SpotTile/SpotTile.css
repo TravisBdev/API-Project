@@ -10,6 +10,11 @@
   transition: opacity 0.3s;
 }
 
+.spot-tile:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 .spot-tile {
   border: 1px solid lightgray;
   position: relative;
@@ -30,14 +35,13 @@
   border-top-left-radius: 10px;
 }
 
-.spot-tile:hover .tooltip {
-  visibility: visible;
-  opacity: 1;
-}
+
 
 .link {
   text-decoration: none;
   color: black;
+  /* display: grid;
+  justify-items: center; */
 }
 
 .prev-img-box {

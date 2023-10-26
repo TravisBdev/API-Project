@@ -47,6 +47,8 @@ const ReviewModal = ({ spotId }) => {
       <h1>How was your stay?</h1>
       <form onSubmit={handleSubmit}>
         <textarea
+          cols='30'
+          rows='5'
           value={review}
           onChange={(e) => setReview(e.target.value)}
           placeholder="Leave your review here..."
@@ -81,10 +83,10 @@ const ReviewModal = ({ spotId }) => {
             onMouseLeave={() => { if (!disabled) setActiveRating(stars) }}
             onClick={() => { if (!disabled) onChange(5) }}>
             <i className="fa fa-star"></i></div>
-
+          <label>Stars</label>
         </div>
         {errors.review && <p>{errors.review}</p>}
-        <button type="submit">Submit Review</button>
+        <button disabled={review.length < 10} id="review-btn" type="submit">Submit Review</button>
       </form>
     </div>
   )
