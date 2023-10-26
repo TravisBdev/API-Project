@@ -24,7 +24,7 @@ const CreateSpot = () => {
   const [didSubmit, setDidSubmit] = useState(false)
   const [validationErrors, setValidationErrors] = useState({})
   const spots = useSelector(state => state.spots)
-  console.log(spots);
+
 
 
   useEffect(() => {

@@ -9,7 +9,7 @@ import './ManageSpots.css'
 const ManageSpots = () => {
   const dispatch = useDispatch()
   const spots = useSelector(state => state.spots.userSpots)
-  // console.log(spots);
+
 
   useEffect(() => {
     dispatch(getUserSpots())
