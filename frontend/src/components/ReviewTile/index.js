@@ -13,8 +13,8 @@ const ReviewTile = ({ review }) => {
   const checkUser = sessionUser?.id === review.userId
   const user = sessionUser?.id
   return (
-    <div>
-      <div className="review-tile">
+    <div className='review-tile'>
+      <div>
         <div>
           <h3>{review.User?.firstName}</h3>
           <p>{month} {year}</p>

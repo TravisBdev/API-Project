@@ -47,6 +47,8 @@ const ReviewModal = ({ spotId }) => {
       <h1>How was your stay?</h1>
       <form onSubmit={handleSubmit}>
         <textarea
+          cols='30'
+          rows='5'
           value={review}
           onChange={(e) => setReview(e.target.value)}
           placeholder="Leave your review here..."
@@ -84,7 +86,7 @@ const ReviewModal = ({ spotId }) => {
           <label>Stars</label>
         </div>
         {errors.review && <p>{errors.review}</p>}
-        <button disabled={review.length < 10} type="submit">Submit Review</button>
+        <button disabled={review.length < 10} id="review-btn" type="submit">Submit Review</button>
       </form>
     </div>
   )
