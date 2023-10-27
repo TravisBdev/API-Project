@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import { getSpotDetails } from "../../store/spots";
-// import { getAllReviews } from "../../store/reviews";
+import { getAllReviews } from "../../store/reviews";
 
 import ReviewList from "../ReviewList";
 import ReviewModal from "../ReviewModal";
@@ -17,21 +17,21 @@ const SpotDetails = () => {
   const { setModalContent } = useModal()
   const dispatch = useDispatch()
   const spot = useSelector(state => state.spots[spotId])
+  const reviews = useSelector(state => Object.values(state.reviews))
 
   const isNotOwner = sessionUser?.id !== spot?.Owner?.id
   const user = sessionUser?.id
 
-  //added this to check against
-  // const reviews = useSelector(state => Object.values(state.reviews))
-  //Added this to load the reviews to check against
-  // useEffect(() => {
-  //   dispatch(getAllReviews(spotId))
-  // }, [dispatch])
-
 
   useEffect(() => {
+    dispatch(getAllReviews(spotId))
     dispatch(getSpotDetails(spotId))
   }, [dispatch, spotId])
+
+  const hasReviewed = () => {
+    const userRev = reviews.find(rev => rev.userId === user && rev.spotId === spotId)
+    return userRev !== undefined
+  }
 
   if (!spot) {
     return null
@@ -97,7 +97,7 @@ const SpotDetails = () => {
 
         <div className="reviews-heading">
           {avgRating ? <h3><i className="fa-solid fa-star fa-xs"></i> {avgRating.toFixed(1)} • {numReviews} {numReviews === 1 ? 'review' : 'reviews'}</h3> : <h3><i className="fa-solid fa-star fa-xs"></i>New</h3>}
-          {sessionUser && user && isNotOwner && <button id="post-review" onClick={postReview}>Post Your Review</button>}
+          {sessionUser && user && isNotOwner && !hasReviewed && <button id="post-review" onClick={postReview}>Post Your Review</button>}
           {reviewCount && user && isNotOwner && <p>Be the first to post a review!</p>}
         </div>
 
