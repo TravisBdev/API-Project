@@ -88,23 +88,23 @@ const UpdateSpot = () => {
   return (
     <form className="create-spot-form" onSubmit={handleSubmit}>
       <div className="header-box">
-        <div><h1>Update Your Spot</h1></div>
-        <div><h2>Where's your place located?</h2></div>
-        <div><p>Guests will only get your exact address once they book a reservation.</p></div>
+        <h1>Update Your Spot</h1>
+        <h2>Where's your place located?</h2>
+        <p>Guests will only get your exact address once they book a reservation.</p>
 
 
         <div className="info-inputs">
           <div className='country-address-box'>
-            <div><input type="text" id='country' placeholder='Country' value={country} onChange={(e) => setCountry(e.target.value)} />
+            <div><div>Country</div><input type="text" id='country' placeholder='Country' value={country} onChange={(e) => setCountry(e.target.value)} />
               {didSubmit && validationErrors.country && <div className="error">{validationErrors.country}</div>}</div>
-            <div><input type="text" id='address' placeholder='Address' value={address} onChange={(e) => setAddress(e.target.value)} />
+            <div><div>Address</div><input type="text" id='address' placeholder='Address' value={address} onChange={(e) => setAddress(e.target.value)} />
               {didSubmit && validationErrors.address && <div className="error">{validationErrors.address}</div>}</div>
           </div>
           <div className="city-state-box">
-            <div><input type="text" id='city' placeholder='City' value={city} onChange={(e) => setCity(e.target.value)} />,
+            <div><div>City</div><input type="text" id='city' placeholder='City' value={city} onChange={(e) => setCity(e.target.value)} />,
               {didSubmit && validationErrors.city && <div className="error">{validationErrors.city}</div>}</div>
 
-            <div><input type="text" id='state' placeholder='STATE' value={state} onChange={(e) => setState(e.target.value)} />
+            <div><div>State</div><input type="text" id='state' placeholder='STATE' value={state} onChange={(e) => setState(e.target.value)} />
               {didSubmit && validationErrors.state && <div className="error">{validationErrors.state}</div>}</div>
           </div>
         </div>
@@ -153,7 +153,7 @@ const UpdateSpot = () => {
       </div>
 
       <div className="button-box">
-        <button type='submit'>Update Your Spot</button>
+        <button className="update-spot-btn" type='submit'>Update Your Spot</button>
       </div>
 
     </form>

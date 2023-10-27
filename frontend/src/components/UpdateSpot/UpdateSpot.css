@@ -61,3 +61,11 @@
 .photo-box input {
   margin: .5rem;
 }
+
+.update-spot-btn {
+  border: none;
+  padding: 8px;
+  color: white;
+  background-color: gray;
+  margin-top: 1rem;
+}
