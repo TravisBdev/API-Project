@@ -25,7 +25,7 @@ const ManageSpotTile = ({ spot }) => {
             ${spot.price} night
           </div>
           <div className="btn-box">
-            <Link to={`/spots/${spot.id}/edit`}><button className="update-btn">Update</button></Link>
+            <Link className="update-btn" to={`/spots/${spot.id}/edit`}><button >Update</button></Link>
             <OpenModalButton buttonText='Delete' className='delete-btn' modalComponent={<DeleteSpotModal spotId={spot.id} />} />
           </div>
         </div>

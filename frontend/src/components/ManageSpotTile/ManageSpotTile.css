@@ -41,8 +41,17 @@
 
 .btn-box button {
   border: none;
-  margin: .3rem;
+  margin: 5px;
   padding: 5px;
   background-color: gray;
   color: white;
+  width: 90px;
+}
+
+
+
+.btn-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

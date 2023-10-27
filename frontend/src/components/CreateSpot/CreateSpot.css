@@ -16,12 +16,16 @@
 }
 
 
+
+
 .country-address-box input {
   margin: .5rem;
 }
 
 .city-state-box {
   display: flex;
+  /* justify-content: center; */
+  align-items: center;
 }
 
 .city-state-box input {
@@ -60,4 +64,13 @@
 
 .photo-box input {
   margin: .5rem;
+}
+
+
+.create-spot-btn {
+  border: none;
+  padding: 8px;
+  margin-top: 1rem;
+  color: white;
+  background-color: gray;
 }

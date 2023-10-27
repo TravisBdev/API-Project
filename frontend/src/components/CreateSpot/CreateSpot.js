@@ -106,16 +106,16 @@ const CreateSpot = () => {
 
         <div className="info-inputs">
           <div className='country-address-box'>
-            <div><input type="text" id='country' placeholder='Country' value={country} onChange={(e) => setCountry(e.target.value)} />
+            <div> <div>Country</div> <input type="text" id='country' placeholder='Country' value={country} onChange={(e) => setCountry(e.target.value)} />
               {didSubmit && validationErrors.country && <div className="error">{validationErrors.country}</div>}</div>
-            <div><input type="text" id='address' placeholder='Address' value={address} onChange={(e) => setAddress(e.target.value)} />
+            <div><div>Address</div><input type="text" id='address' placeholder='Address' value={address} onChange={(e) => setAddress(e.target.value)} />
               {didSubmit && validationErrors.address && <div className="error">{validationErrors.address}</div>}</div>
           </div>
           <div className="city-state-box">
-            <div><input type="text" id='city' placeholder='City' value={city} onChange={(e) => setCity(e.target.value)} />,
+            <div><div>City</div><input type="text" id='city' placeholder='City' value={city} onChange={(e) => setCity(e.target.value)} />,
               {didSubmit && validationErrors.city && <div className="error">{validationErrors.city}</div>}</div>
 
-            <div><input type="text" id='state' placeholder='STATE' value={state} onChange={(e) => setState(e.target.value)} />
+            <div><div>State</div><input type="text" id='state' placeholder='STATE' value={state} onChange={(e) => setState(e.target.value)} />
               {didSubmit && validationErrors.state && <div className="error">{validationErrors.state}</div>}</div>
           </div>
         </div>
@@ -164,7 +164,7 @@ const CreateSpot = () => {
       </div>
 
       <div className="button-box">
-        <button type='submit'>Create Spot</button>
+        <button className='create-spot-btn' type='submit'>Create Spot</button>
       </div>
 
     </form>
