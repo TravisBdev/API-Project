@@ -1,6 +1,16 @@
+.spot-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #1a694b;
+  color: #fff;
+}
+
 .spot-tile .tooltip {
   visibility: hidden;
-  background-color: #215a2d;
+  background-color: #2e2363;
+  border-radius: 5px;
+  padding: 5px;
   color: #fff;
   text-align: justify;
   position: absolute;
@@ -15,33 +25,21 @@
   opacity: 1;
 }
 
-.spot-tile {
-  border: 1px solid lightgray;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 300px;
-  border-radius: 10px;
-  box-shadow: 0px 8px 12px 0px rgba(173, 173, 173, 0.87);
-}
-
 .spot-details {
-  padding: .3rem;
+  padding: .4rem;
+  letter-spacing: .8px;
 }
 
-.preview-img {
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
+.spot-details .location, 
+.spot-details .avg-rating,
+.spot-details .price {
+  margin-bottom: .4rem;
 }
-
-
 
 .link {
   text-decoration: none;
   color: black;
-  /* display: grid;
-  justify-items: center; */
+  max-width: 300px;
 }
 
 .prev-img-box {
@@ -52,5 +50,5 @@
 .preview-img {
   width: 100%;
   height: 100%;
-  /* object-fit: cover; */
+  object-fit: cover;
 }
