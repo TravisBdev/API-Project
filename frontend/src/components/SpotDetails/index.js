@@ -53,21 +53,22 @@ const SpotDetails = () => {
       <div className="spot-deets">
         <div className="spot-name"><h1>{name}</h1></div>
         <div className="location-deets">
-          {city}, {state}, {country}
-        </div>
-
-        <div className="all-imgs">
-          <div className="hero-img-box">
-            {SpotImages && <img src={SpotImages.find(img => img.preview === true).url} alt="" id="hero-img" />}
-          </div>
-
-          <div className="other-imgs-box">
-            {SpotImages && SpotImages.filter(img => img.preview !== true).map(img => (
-              <div className="other-img-wrapper"><img src={img.url} className="other-imgs" alt="" /></div>
-            ))}
-          </div>
+          <div id="city">City: <span>{city}</span> </div>
+          <div id="realm">Realm: <span>{country}</span> </div>
         </div>
       </div>
+
+        <div className="gallery-container">
+          <div className="gallery">
+              {SpotImages && <img src={SpotImages.find(img => img.preview === true).url} alt="" className="hero-img" />}
+
+            <div className="small-images-container">
+              {SpotImages && SpotImages.filter(img => img.preview !== true).map(img => (
+                <img src={img.url} className="small-imgs" alt="" />
+              ))}
+            </div>
+          </div>
+        </div>
 
       <div className="middle-box">
         <div className="host-description">

@@ -8,7 +8,8 @@
 
 .spot-tile .tooltip {
   visibility: hidden;
-  background-color: #2e2363;
+  background-color: #1a694b;
+  margin-left: .3rem;
   border-radius: 5px;
   padding: 5px;
   color: #fff;
