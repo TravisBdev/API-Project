@@ -47,23 +47,23 @@ function ProfileButton({ user }) {
   return (
     <div className="profile-controls">
       <div className="menu-btns">
-        <i class="fa-solid fa-bars fa-lg" id="burger-btn"></i>
-        <button onClick={openMenu}>
+        <i class="fa-solid fa-bars fa-lg" id="burger-btn" onClick={openMenu}></i>
+        {/* <button onClick={openMenu}>
           <i className="fas fa-user-circle" />
-        </button>
+        </button> */}
       </div>
 
       <div className={ulClassName} ref={ulRef}>
         {user ? (
           <div className="user-menu">
-            <div>Hello, {user.firstName}</div>
+            <div>Hello, {user.firstName}.</div>
             <div>{user.firstName} {user.lastName}</div>
             <div>{user.email}</div>
             <div className="manage-spots-box">
               <NavLink id='manage-btn' to='/spots/current'>Manage Spots</NavLink>
             </div>
             <div>
-              <button onClick={logout}>Log Out</button>
+              <button id="user-log-out-btn" onClick={logout}>Log Out</button>
             </div>
           </div>
         ) : (
