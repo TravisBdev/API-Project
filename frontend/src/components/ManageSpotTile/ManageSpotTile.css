@@ -1,43 +1,37 @@
-.spot-tile {
-  border: 1px solid lightgray;
-  position: relative;
+.manage-spot-tile {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  max-width: 300px;
-  border-radius: 10px;
-  box-shadow: 0px 8px 12px 0px rgba(173, 173, 173, 0.87);
+  background-color: #1a694b;
+  color: #fff;
 }
 
-.spot-details {
-  padding: .3rem;
+.manage-sppot-details {
+  padding: .4rem;
+  letter-spacing: .8px;
 }
 
-.preview-img {
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
+.manage-spot-details .location, 
+.manage-spot-details .avg-rating,
+.manage-spot-details .price {
+  margin: .4rem;
 }
 
-
-
-.link {
+.manage-link {
   text-decoration: none;
   color: black;
-  /* display: grid;
-  justify-items: center; */
+  max-width: 300px;
 }
 
-.prev-img-box {
+.manage-prev-img-box {
   width: 100%;
   height: 150px;
 }
 
-.preview-img {
+.manage-preview-img {
   width: 100%;
   height: 100%;
-  /* object-fit: cover; */
+  object-fit: cover;
 }
-
 
 .btn-box button {
   border: none;
@@ -46,6 +40,7 @@
   background-color: gray;
   color: white;
   width: 90px;
+  cursor: pointer;
 }
 
 
@@ -53,5 +48,5 @@
 .btn-box {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
 }
