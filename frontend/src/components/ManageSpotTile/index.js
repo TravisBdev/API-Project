@@ -7,13 +7,13 @@ import { NavLink, Link } from 'react-router-dom';
 const ManageSpotTile = ({ spot }) => {
 
   return (
-    <NavLink to={`/spots/${spot.id}`} className='link'>
-      <div className="spot-tile">
+    <NavLink to={`/spots/${spot.id}`} className='manage-link'>
+      <div className="manage-spot-tile">
 
-        <div className="prev-img-box">
-          <img src={spot.previewImage} alt='' className="preview-img" />
+        <div className="manage-prev-img-box">
+          <img src={spot.previewImage} alt='' className="manage-preview-img" />
         </div>
-        <div className="spot-details">
+        <div className="manage-spot-details">
           <div className="location">
             {spot.city}, {spot.state}
           </div>
@@ -24,11 +24,11 @@ const ManageSpotTile = ({ spot }) => {
           <div className="price">
             ${spot.price} night
           </div>
+        </div>
           <div className="btn-box">
             <Link className="update-btn" to={`/spots/${spot.id}/edit`}><button >Update</button></Link>
             <OpenModalButton buttonText='Delete' className='delete-btn' modalComponent={<DeleteSpotModal spotId={spot.id} />} />
           </div>
-        </div>
       </div>
     </NavLink>
   );
