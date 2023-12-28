@@ -20,7 +20,7 @@ module.exports = {
         lat: 37.7645542,
         lng: -137.7645542,
         name: 'Wringcaster Hold',
-        description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus, rerum corrupti. Ipsum eum repellat recusandae magnam tempora praesentium illo, voluptatem labore ipsam dolorem perferendis! Neque recusandae veniam asperiores reprehenderit harum.Ratione a sunt quisquam esse laudantium aut quasi cum modi sed! Repellendus voluptate eaque architecto maxime sed reprehenderit officia quibusdam harum, vel nam sapiente ratione odit. Possimus eveniet vel nihil. Delectus reprehenderit eum harum, architecto, doloremque mollitia maiores laudantium ad ut molestiae eligendi perspiciatis tempore omnis iure repellat tenetur dicta quia repellendus porro! Illo omnis, praesentium explicabo laboriosam tenetur ad. ',
+        description: 'Wringcaster Hold beckons the bold with its towering stone spires and slate roofs, a fortress cradled by swirling mists and thunderous clouds. Within its ancient walls, crimson light whispers of age-old secrets, casting an otherworldly glow. This enigmatic castle, suspended between tempest and tranquility, offers a haven for those seeking respite from the mundane, promising an experience steeped in mystery and the echoes of forgotten epochs. Here, every stone tells a story, and every shadow may hold a new tale waiting to be discovered by the curious traveler.',
         price: 420,
       },
       {
@@ -32,7 +32,7 @@ module.exports = {
         lat: 67.7845542,
         lng: -139.7645542,
         name: 'Uwile',
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione commodi numquam tempore quibusdam aspernatur exercitationem alias laudantium, officia blanditiis nesciunt consequatur, dignissimos dolor et ducimus molestiae at! Earum, itaque quod.sed eveniet est quibusdam, praesentium itaque, vel iusto rem rerum laborum nostrum labore facere quasi voluptas asperiores? Quidem eius deleniti recusandae eaque magni quo harum maiores aliquid. Ad, sequi?Consequuntur ipsam quam commodi nam nemo libero quod quaerat maiores consectetur perspiciatis impedit repellat, temporibus porro dolores pariatur, sunt voluptates rerum ipsum dolorem voluptatibus harum eum! Non suscipit ratione enim!',
+        description: "In the heart of the icy expanse of Uwile, a monolithic sculpture carved by the winds of time stands guard. This colossal figure, draped in a cloak of eternal frost, towers over the silent tundra, a silent sentinel beneath the watchful gaze of the pale moon. Its presence is both a beacon and a mystery to the line of adventurers that trek across the snow-dusted plains. Uwile's icy grasp promises a serene yet thrilling escape where the whispers of ancient spirits dance with the howling blizzard, inviting the bravest souls to uncover its frozen secrets.",
         price: 500,
       },
       {
@@ -44,7 +44,7 @@ module.exports = {
         lat: 67.7845542,
         lng: -139.7645542,
         name: 'Tortmain Hold',
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione commodi numquam tempore quibusdam aspernatur exercitationem alias laudantium, officia blanditiis nesciunt consequatur, dignissimos dolor et ducimus molestiae at! Earum, itaque quod.sed eveniet est quibusdam, praesentium itaque, vel iusto rem rerum laborum nostrum labore facere quasi voluptas asperiores? Quidem eius deleniti recusandae eaque magni quo harum maiores aliquid. Ad, sequi?Consequuntur ipsam quam commodi nam nemo libero quod quaerat maiores consectetur perspiciatis impedit repellat, temporibus porro dolores pariatur, sunt voluptates rerum ipsum dolorem voluptatibus harum eum! Non suscipit ratione enim!',
+        description: 'Venture into the enigmatic realms of Tortmain Hold, a portal where the fabric of reality yields to the cosmic dance of time and space. Swirling nebulas and the shimmer of stars beckon from the event horizon, offering a passage to the unknown. This celestial vortex, suspended in the velvet darkness, is a gateway for the intrepid, a crossing for souls daring to explore beyond the edges of the universe. Here, the very essence of adventure and discovery spirals into infinity, inviting travelers to step through and embrace the vastness of the cosmos.',
         price: 404,
       },
       {
